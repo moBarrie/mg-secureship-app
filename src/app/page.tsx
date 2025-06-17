@@ -1,39 +1,14 @@
 "use client";
 
-import type { Shipment, ShipmentInput } from "@/types/shipment";
+import type { ShipmentInput } from "@/types/shipment";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { NewShipmentSection } from "@/components/sections/NewShipmentSection";
 import { ShipmentTrackingSection } from "@/components/shipment/ShipmentTrackingSection";
-import { SavedShipmentsSection } from "@/components/shipment/SavedShipmentsSection";
 import { Separator } from "@/components/ui/separator";
-import { useState, useCallback } from "react";
 import Image from "next/image";
 
 export default function Home() {
-  const [newlySavedShipment, setNewlySavedShipment] = useState<Shipment | null>(
-    null
-  );
-  const [formDataForNewShipment, setFormDataForNewShipment] = useState<
-    ShipmentInput | undefined
-  >(undefined);
-
-  const handleShipmentSaved = useCallback((shipment: Shipment) => {
-    setNewlySavedShipment(shipment);
-  }, []);
-
-  const handleUseSavedShipment = useCallback(
-    (shipmentDetails: ShipmentInput) => {
-      setFormDataForNewShipment(shipmentDetails);
-      // Scroll to the form section
-      const formElement = document.getElementById("new-shipment-form");
-      if (formElement) {
-        formElement.scrollIntoView({ behavior: "smooth" });
-      }
-    },
-    []
-  );
-
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
@@ -56,62 +31,369 @@ export default function Home() {
               Leone to the world. Fast, reliable, and fully compliant with
               international regulations.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-center max-w-6xl mx-auto">
-              <div className="relative group">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-center max-w-6xl mx-auto mb-16">
+              <div className="relative group overflow-hidden">
                 <Image
                   src="/images/gold-shipping.jpeg"
                   alt="Gold being shipped securely"
                   width={400}
                   height={300}
-                  className="rounded-lg shadow-xl mx-auto transform transition-all duration-300 hover:scale-105"
+                  className="rounded-lg shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-                  <p className="text-white text-lg font-semibold">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-lg flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold">
                     Secure Gold Shipping
                   </p>
                 </div>
               </div>
-              <div className="relative group">
+              <div className="relative group overflow-hidden">
                 <Image
                   src="/images/gold-bars.jpeg"
                   alt="Premium Gold Bars"
                   width={400}
                   height={300}
-                  className="rounded-lg shadow-xl mx-auto transform transition-all duration-300 hover:scale-105"
+                  className="rounded-lg shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-                  <p className="text-white text-lg font-semibold">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-lg flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold">
                     Premium Gold Bars
                   </p>
                 </div>
               </div>
-              <div className="relative group">
+              <div className="relative group overflow-hidden">
                 <Image
                   src="/images/diamond-shipping.jpeg"
                   alt="Diamonds being shipped securely"
                   width={400}
                   height={300}
-                  className="rounded-lg shadow-xl mx-auto transform transition-all duration-300 hover:scale-105"
+                  className="rounded-lg shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-                  <p className="text-white text-lg font-semibold">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-lg flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold">
                     Secure Diamond Shipping
                   </p>
                 </div>
               </div>
             </div>
+
+            {/* Stats Section */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-8">
+              <div className="text-center p-4 bg-primary-foreground/10 backdrop-blur-sm rounded-lg">
+                <h3 className="text-4xl font-bold mb-2">500+</h3>
+                <p className="text-sm text-primary-foreground/90">
+                  Happy Clients
+                </p>
+              </div>
+              <div className="text-center p-4 bg-primary-foreground/10 backdrop-blur-sm rounded-lg">
+                <h3 className="text-4xl font-bold mb-2">100%</h3>
+                <p className="text-sm text-primary-foreground/90">
+                  Secure Deliveries
+                </p>
+              </div>
+              <div className="text-center p-4 bg-primary-foreground/10 backdrop-blur-sm rounded-lg">
+                <h3 className="text-4xl font-bold mb-2">50+</h3>
+                <p className="text-sm text-primary-foreground/90">
+                  Global Partners
+                </p>
+              </div>
+              <div className="text-center p-4 bg-primary-foreground/10 backdrop-blur-sm rounded-lg">
+                <h3 className="text-4xl font-bold mb-2">15+</h3>
+                <p className="text-sm text-primary-foreground/90">
+                  Years Experience
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
-        <NewShipmentSection
-          onShipmentSaved={handleShipmentSaved}
-          initialFormData={formDataForNewShipment}
-        />
-        <Separator className="my-8 bg-border/70" />
-        <SavedShipmentsSection
-          onUseShipment={handleUseSavedShipment}
-          newlySavedShipment={newlySavedShipment}
-        />
+        {/* Services Section */}
+        <section className="py-16 bg-muted">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+              Our Premium Services
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-background p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <div className="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-primary"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Secure Shipping</h3>
+                <p className="text-muted-foreground">
+                  End-to-end secure logistics for your precious minerals with
+                  real-time tracking and insurance.
+                </p>
+              </div>
+              <div className="bg-background p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <div className="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-primary"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-3">
+                  Compliance Management
+                </h3>
+                <p className="text-muted-foreground">
+                  Full compliance with international regulations and
+                  documentation handling.
+                </p>
+              </div>
+              <div className="bg-background p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <div className="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-primary"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold mb-3">
+                  Storage Solutions
+                </h3>
+                <p className="text-muted-foreground">
+                  Secure vaults and storage facilities for your valuable
+                  minerals with 24/7 monitoring.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Why Choose Us Section */}
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+              Why Choose Us
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="p-6 text-center group">
+                <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-primary"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Maximum Security</h3>
+                <p className="text-muted-foreground">
+                  State-of-the-art security protocols and insurance coverage for
+                  your valuable shipments.
+                </p>
+              </div>
+              <div className="p-6 text-center group">
+                <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-primary"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Fast Delivery</h3>
+                <p className="text-muted-foreground">
+                  Express shipping options with efficient customs clearance
+                  processes.
+                </p>
+              </div>
+              <div className="p-6 text-center group">
+                <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-primary"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Global Network</h3>
+                <p className="text-muted-foreground">
+                  Extensive network of trusted partners worldwide ensuring
+                  smooth operations.
+                </p>
+              </div>
+              <div className="p-6 text-center group">
+                <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8 text-primary"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold mb-3">24/7 Support</h3>
+                <p className="text-muted-foreground">
+                  Round-the-clock customer support and shipment monitoring.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section className="py-16 bg-muted">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+              What Our Clients Say
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-background p-8 rounded-xl shadow-lg">
+                <div className="flex items-center mb-4">
+                  <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-primary"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-semibold">John Smith</h4>
+                    <p className="text-sm text-muted-foreground">Gold Trader</p>
+                  </div>
+                </div>
+                <p className="text-muted-foreground">
+                  "Exceptional service and security. Their attention to detail
+                  and professional handling of our precious cargo exceeded our
+                  expectations."
+                </p>
+              </div>
+              <div className="bg-background p-8 rounded-xl shadow-lg">
+                <div className="flex items-center mb-4">
+                  <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-primary"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-semibold">Sarah Johnson</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Diamond Merchant
+                    </p>
+                  </div>
+                </div>
+                <p className="text-muted-foreground">
+                  "Their compliance management made international shipping
+                  seamless. I highly recommend their services for valuable
+                  cargo."
+                </p>
+              </div>
+              <div className="bg-background p-8 rounded-xl shadow-lg">
+                <div className="flex items-center mb-4">
+                  <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-primary"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-semibold">Michael Chen</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Mining Executive
+                    </p>
+                  </div>
+                </div>
+                <p className="text-muted-foreground">
+                  "Fast, reliable, and secure. Their global network and 24/7
+                  support give us peace of mind for all our shipments."
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <NewShipmentSection />
         <Separator className="my-8 bg-border/70" />
         <ShipmentTrackingSection />
       </main>
