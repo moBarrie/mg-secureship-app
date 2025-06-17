@@ -67,7 +67,7 @@ export function ContactInformation() {
                       <p className="text-muted-foreground">
                         Freetown, Sierra Leone
                         <br />
-                        25 Liverpool Street
+                        10 William Street
                       </p>
                     </div>
                   </div>
