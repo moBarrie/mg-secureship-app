@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 42 27% 93%; /* #F2EFE9 Light Beige */
+    --foreground: 134 15% 20%; /* Dark, slightly desaturated green for text */
+    --card: 42 30% 97%; /* #F7F5F0 Slightly whiter/brighter beige for cards */
+    --card-foreground: 134 15% 20%;
+    --popover: 42 30% 97%;
+    --popover-foreground: 134 15% 20%;
+    --primary: 134 23% 26%; /* #335238 Deep Green */
+    --primary-foreground: 42 30% 97%; /* Light Beige / Off-white for text on primary */
+    --secondary: 43 20% 80%; /* #D1C7AB Lighter Muted Gold for secondary elements */
+    --secondary-foreground: 134 15% 20%; /* Dark text for secondary elements */
+    --muted: 42 20% 88%; /* #EAE6DD Muted Beige for less important text or backgrounds */
+    --muted-foreground: 134 10% 40%; /* Softer dark text */
+    --accent: 43 26% 58%; /* #B4A175 Muted Gold */
+    --accent-foreground: 0 0% 100%; /* White text on gold for high contrast */
+    --destructive: 0 72% 51%; /* A standard red for errors */
+    --destructive-foreground: 0 0% 98%;
+    --border: 43 20% 75%; /* #C2B89D Darker Muted Gold/Beige for borders */
+    --input: 42 25% 90%; /* #EDEAE4 Slightly darker beige for input backgrounds */
+    --ring: 134 23% 30%; /* Primary color slightly brightened for focus rings */
+    --chart-1: 134 30% 40%;
+    --chart-2: 43 30% 65%;
+    --chart-3: 134 20% 50%;
+    --chart-4: 43 35% 70%;
+    --chart-5: 134 15% 60%;
+    --radius: 0.5rem;
+    --sidebar-background: 134 15% 22%; /* Darker shade of primary green */
+    --sidebar-foreground: 42 25% 90%; /* Light beige for text */
+    --sidebar-primary: 43 26% 65%; /* Muted gold as primary accent in sidebar */
+    --sidebar-primary-foreground: 134 15% 15%; /* Dark green text on gold */
+    --sidebar-accent: 134 15% 28%; /* Slightly lighter green for hover */
+    --sidebar-accent-foreground: 42 25% 95%;
+    --sidebar-border: 134 15% 30%;
+    --sidebar-ring: 43 26% 58%;
+  }
+
+  .dark {
+    --background: 134 10% 12%; /* Very Dark Greenish Gray */
+    --foreground: 42 25% 88%; /* Light Beige text */
+    --card: 134 10% 18%; /* Darker Card Background */
+    --card-foreground: 42 25% 88%;
+    --popover: 134 10% 18%;
+    --popover-foreground: 42 25% 88%;
+    --primary: 43 26% 65%; /* Brighter Muted Gold as primary in dark */
+    --primary-foreground: 134 10% 12%; /* Dark text on gold */
+    --secondary: 134 15% 30%; /* Darker Green for secondary elements */
+    --secondary-foreground: 42 25% 88%;
+    --muted: 134 10% 22%;
+    --muted-foreground: 42 20% 70%;
+    --accent: 134 23% 35%; /* Medium Deep Green as accent */
+    --accent-foreground: 42 25% 95%;
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 134 10% 25%;
+    --input: 134 10% 22%;
+    --ring: 43 26% 65%; /* Muted Gold for rings */
+    --chart-1: 134 30% 60%;
+    --chart-2: 43 30% 50%;
+    --chart-3: 134 20% 70%;
+    --chart-4: 43 35% 45%;
+    --chart-5: 134 15% 55%;
+    --sidebar-background: 134 10% 10%;
+    --sidebar-foreground: 42 25% 85%;
+    --sidebar-primary: 43 26% 58%;
+    --sidebar-primary-foreground: 134 10% 8%;
+    --sidebar-accent: 134 10% 15%;
+    --sidebar-accent-foreground: 42 25% 90%;
+    --sidebar-border: 134 10% 20%;
+    --sidebar-ring: 43 26% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline;
+  }
+}

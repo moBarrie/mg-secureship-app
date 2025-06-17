@@ -1,0 +1,107 @@
+"use client";
+
+import type { Shipment, ShipmentInput } from "@/types/shipment";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { NewShipmentSection } from "@/components/sections/NewShipmentSection";
+import { ShipmentTrackingSection } from "@/components/shipment/ShipmentTrackingSection";
+import { SavedShipmentsSection } from "@/components/shipment/SavedShipmentsSection";
+import { Separator } from "@/components/ui/separator";
+import { useState, useCallback } from "react";
+import Image from "next/image";
+
+export default function Home() {
+  const [newlySavedShipment, setNewlySavedShipment] = useState<Shipment | null>(
+    null
+  );
+  const [formDataForNewShipment, setFormDataForNewShipment] = useState<
+    ShipmentInput | undefined
+  >(undefined);
+
+  const handleShipmentSaved = useCallback((shipment: Shipment) => {
+    setNewlySavedShipment(shipment);
+  }, []);
+
+  const handleUseSavedShipment = useCallback(
+    (shipmentDetails: ShipmentInput) => {
+      setFormDataForNewShipment(shipmentDetails);
+      // Scroll to the form section
+      const formElement = document.getElementById("new-shipment-form");
+      if (formElement) {
+        formElement.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    []
+  );
+
+  return (
+    <div className="flex flex-col min-h-screen bg-background">
+      <Header />
+      <main className="flex-grow">
+        <section className="relative py-16 md:py-24 text-center bg-gradient-to-br from-primary/80 via-primary to-primary/90 text-primary-foreground overflow-hidden">
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage:
+                "url(\"data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23B4A175' fill-opacity='0.4'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414zM41 18c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zM41 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+              backgroundRepeat: "repeat",
+            }}
+          ></div>
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <h2 className="text-4xl md:text-5xl font-bold font-headline mb-4">
+              Secure. Compliant. Global.
+            </h2>
+            <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto text-primary-foreground/90">
+              Your trusted partner for shipping precious minerals from Sierra
+              Leone to the world. Fast, reliable, and fully compliant with
+              international regulations.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center max-w-4xl mx-auto">
+              <div className="relative group">
+                <Image
+                  src="/images/gold-shipping.jpeg"
+                  alt="Gold being shipped securely"
+                  width={500}
+                  height={300}
+                  className="rounded-lg shadow-xl mx-auto transform transition-all duration-300 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+                  <p className="text-white text-lg font-semibold">
+                    Secure Gold Shipping
+                  </p>
+                </div>
+              </div>
+              <div className="relative group">
+                <Image
+                  src="/images/diamond-shipping.jpeg"
+                  alt="Diamonds being shipped securely"
+                  width={500}
+                  height={300}
+                  className="rounded-lg shadow-xl mx-auto transform transition-all duration-300 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+                  <p className="text-white text-lg font-semibold">
+                    Secure Diamond Shipping
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <NewShipmentSection
+          onShipmentSaved={handleShipmentSaved}
+          initialFormData={formDataForNewShipment}
+        />
+        <Separator className="my-8 bg-border/70" />
+        <SavedShipmentsSection
+          onUseShipment={handleUseSavedShipment}
+          newlySavedShipment={newlySavedShipment}
+        />
+        <Separator className="my-8 bg-border/70" />
+        <ShipmentTrackingSection />
+      </main>
+      <Footer />
+    </div>
+  );
+}
