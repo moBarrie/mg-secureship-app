@@ -1,6 +1,5 @@
 "use client";
 
-import type { ShipmentInput } from "@/types/shipment";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { NewShipmentSection } from "@/components/sections/NewShipmentSection";
@@ -13,6 +12,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow">
+        {/* Hero Section */}
         <section className="relative py-16 md:py-24 text-center bg-gradient-to-br from-primary/80 via-primary to-primary/90 text-primary-foreground overflow-hidden">
           <div
             className="absolute inset-0 opacity-10"
@@ -21,7 +21,7 @@ export default function Home() {
                 "url(\"data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23B4A175' fill-opacity='0.4'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414zM41 18c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zM41 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
               backgroundRepeat: "repeat",
             }}
-          ></div>
+          />
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
             <h2 className="text-4xl md:text-5xl font-bold font-headline mb-4">
               Secure. Compliant. Global.
@@ -31,72 +31,74 @@ export default function Home() {
               Leone to the world. Fast, reliable, and fully compliant with
               international regulations.
             </p>
+
+            {/* Hero Image Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-center max-w-6xl mx-auto mb-16">
-              <div className="relative group overflow-hidden">
+              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
                   src="/images/gold-shipping.jpeg"
                   alt="Gold being shipped securely"
                   width={400}
                   height={300}
-                  className="rounded-lg shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
+                  className="rounded-xl shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-lg flex items-end justify-center pb-8">
-                  <p className="text-white text-xl font-semibold">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold px-4 text-center">
                     Secure Gold Shipping
                   </p>
                 </div>
               </div>
-              <div className="relative group overflow-hidden">
+              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
-                  src="/images/gold-bars.jpeg"
-                  alt="Premium Gold Bars"
+                  src="/images/vault-gold.jpeg"
+                  alt="Secure Gold Storage"
                   width={400}
                   height={300}
-                  className="rounded-lg shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
+                  className="rounded-xl shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-lg flex items-end justify-center pb-8">
-                  <p className="text-white text-xl font-semibold">
-                    Premium Gold Bars
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold px-4 text-center">
+                    Secure Storage Solutions
                   </p>
                 </div>
               </div>
-              <div className="relative group overflow-hidden">
+              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
                   src="/images/diamond-shipping.jpeg"
                   alt="Diamonds being shipped securely"
                   width={400}
                   height={300}
-                  className="rounded-lg shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
+                  className="rounded-xl shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-lg flex items-end justify-center pb-8">
-                  <p className="text-white text-xl font-semibold">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold px-4 text-center">
                     Secure Diamond Shipping
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Stats Section */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-8">
-              <div className="text-center p-4 bg-primary-foreground/10 backdrop-blur-sm rounded-lg">
+            {/* Stats Section with Backdrop */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto mt-8">
+              <div className="text-center p-6 bg-black/20 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
                 <h3 className="text-4xl font-bold mb-2">500+</h3>
                 <p className="text-sm text-primary-foreground/90">
                   Happy Clients
                 </p>
               </div>
-              <div className="text-center p-4 bg-primary-foreground/10 backdrop-blur-sm rounded-lg">
+              <div className="text-center p-6 bg-black/20 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
                 <h3 className="text-4xl font-bold mb-2">100%</h3>
                 <p className="text-sm text-primary-foreground/90">
                   Secure Deliveries
                 </p>
               </div>
-              <div className="text-center p-4 bg-primary-foreground/10 backdrop-blur-sm rounded-lg">
+              <div className="text-center p-6 bg-black/20 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
                 <h3 className="text-4xl font-bold mb-2">50+</h3>
                 <p className="text-sm text-primary-foreground/90">
                   Global Partners
                 </p>
               </div>
-              <div className="text-center p-4 bg-primary-foreground/10 backdrop-blur-sm rounded-lg">
+              <div className="text-center p-6 bg-black/20 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
                 <h3 className="text-4xl font-bold mb-2">15+</h3>
                 <p className="text-sm text-primary-foreground/90">
                   Years Experience
@@ -106,18 +108,28 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Services Section */}
-        <section className="py-16 bg-muted">
-          <div className="container mx-auto px-4">
+        {/* Services Section with Background Image */}
+        <section className="relative py-24 bg-muted overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <Image
+              src="/images/cargo-plane.jpeg"
+              alt="Background"
+              fill
+              className="object-cover"
+              quality={100}
+            />
+            <div className="absolute inset-0 bg-background/95" />
+          </div>
+          <div className="container mx-auto px-4 relative">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
               Our Premium Services
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-background p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-                <div className="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <div className="bg-background/80 backdrop-blur-sm p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-border/50">
+                <div className="h-14 w-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-primary"
+                    className="h-7 w-7 text-primary"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -130,17 +142,17 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Secure Shipping</h3>
+                <h3 className="text-xl font-semibold mb-4">Secure Shipping</h3>
                 <p className="text-muted-foreground">
                   End-to-end secure logistics for your precious minerals with
                   real-time tracking and insurance.
                 </p>
               </div>
-              <div className="bg-background p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-                <div className="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <div className="bg-background/80 backdrop-blur-sm p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-border/50">
+                <div className="h-14 w-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-primary"
+                    className="h-7 w-7 text-primary"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -153,7 +165,7 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">
+                <h3 className="text-xl font-semibold mb-4">
                   Compliance Management
                 </h3>
                 <p className="text-muted-foreground">
@@ -161,11 +173,11 @@ export default function Home() {
                   documentation handling.
                 </p>
               </div>
-              <div className="bg-background p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-                <div className="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <div className="bg-background/80 backdrop-blur-sm p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border border-border/50">
+                <div className="h-14 w-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-primary"
+                    className="h-7 w-7 text-primary"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -178,7 +190,7 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">
+                <h3 className="text-xl font-semibold mb-4">
                   Storage Solutions
                 </h3>
                 <p className="text-muted-foreground">
@@ -190,15 +202,25 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Why Choose Us Section */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        {/* Why Choose Us Section with Image Background */}
+        <section className="relative py-24 overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <Image
+              src="/images/vault.jpeg"
+              alt="Background"
+              fill
+              className="object-cover"
+              quality={100}
+            />
+            <div className="absolute inset-0 bg-background/95" />
+          </div>
+          <div className="container mx-auto px-4 relative">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
               Why Choose Us
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="p-6 text-center group">
-                <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+              <div className="bg-background/80 backdrop-blur-sm p-8 rounded-xl text-center group shadow-lg hover:shadow-xl transition-all">
+                <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-8 w-8 text-primary"
@@ -220,8 +242,8 @@ export default function Home() {
                   your valuable shipments.
                 </p>
               </div>
-              <div className="p-6 text-center group">
-                <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+              <div className="bg-background/80 backdrop-blur-sm p-8 rounded-xl text-center group shadow-lg hover:shadow-xl transition-all">
+                <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-8 w-8 text-primary"
@@ -243,8 +265,8 @@ export default function Home() {
                   processes.
                 </p>
               </div>
-              <div className="p-6 text-center group">
-                <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+              <div className="bg-background/80 backdrop-blur-sm p-8 rounded-xl text-center group shadow-lg hover:shadow-xl transition-all">
+                <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-8 w-8 text-primary"
@@ -266,8 +288,8 @@ export default function Home() {
                   smooth operations.
                 </p>
               </div>
-              <div className="p-6 text-center group">
-                <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+              <div className="bg-background/80 backdrop-blur-sm p-8 rounded-xl text-center group shadow-lg hover:shadow-xl transition-all">
+                <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-8 w-8 text-primary"
@@ -292,14 +314,24 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Testimonials Section */}
-        <section className="py-16 bg-muted">
-          <div className="container mx-auto px-4">
+        {/* Testimonials Section with Transport Background */}
+        <section className="relative py-24 bg-muted overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <Image
+              src="/images/transport.jpeg"
+              alt="Background"
+              fill
+              className="object-cover"
+              quality={100}
+            />
+            <div className="absolute inset-0 bg-background/95" />
+          </div>
+          <div className="container mx-auto px-4 relative">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
               What Our Clients Say
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-background p-8 rounded-xl shadow-lg">
+              <div className="bg-background/80 backdrop-blur-sm p-8 rounded-xl shadow-lg">
                 <div className="flex items-center mb-4">
                   <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center">
                     <svg
@@ -328,7 +360,7 @@ export default function Home() {
                   expectations."
                 </p>
               </div>
-              <div className="bg-background p-8 rounded-xl shadow-lg">
+              <div className="bg-background/80 backdrop-blur-sm p-8 rounded-xl shadow-lg">
                 <div className="flex items-center mb-4">
                   <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center">
                     <svg
@@ -359,7 +391,7 @@ export default function Home() {
                   cargo."
                 </p>
               </div>
-              <div className="bg-background p-8 rounded-xl shadow-lg">
+              <div className="bg-background/80 backdrop-blur-sm p-8 rounded-xl shadow-lg">
                 <div className="flex items-center mb-4">
                   <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center">
                     <svg
