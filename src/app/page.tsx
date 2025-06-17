@@ -56,12 +56,12 @@ export default function Home() {
               Leone to the world. Fast, reliable, and fully compliant with
               international regulations.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-center max-w-6xl mx-auto">
               <div className="relative group">
                 <Image
                   src="/images/gold-shipping.jpeg"
                   alt="Gold being shipped securely"
-                  width={500}
+                  width={400}
                   height={300}
                   className="rounded-lg shadow-xl mx-auto transform transition-all duration-300 hover:scale-105"
                 />
@@ -73,9 +73,23 @@ export default function Home() {
               </div>
               <div className="relative group">
                 <Image
+                  src="/images/gold-bars.jpeg"
+                  alt="Premium Gold Bars"
+                  width={400}
+                  height={300}
+                  className="rounded-lg shadow-xl mx-auto transform transition-all duration-300 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+                  <p className="text-white text-lg font-semibold">
+                    Premium Gold Bars
+                  </p>
+                </div>
+              </div>
+              <div className="relative group">
+                <Image
                   src="/images/diamond-shipping.jpeg"
                   alt="Diamonds being shipped securely"
-                  width={500}
+                  width={400}
                   height={300}
                   className="rounded-lg shadow-xl mx-auto transform transition-all duration-300 hover:scale-105"
                 />
