@@ -61,10 +61,16 @@ export function NewShipmentSection() {
               {error}
             </div>
           )}
-          {complianceAdvice && currentShipmentDetails && (
+          {(complianceAdvice || error || isLoading) && (
             <ComplianceResultCard
-              shipmentDetails={currentShipmentDetails}
-              complianceAdvice={complianceAdvice}
+              advice={complianceAdvice}
+              isLoading={isLoading}
+              error={error}
+              shipmentDetails={{
+                mineralType: currentShipmentDetails?.mineralType || "",
+                quantity: currentShipmentDetails?.quantity || "",
+                destination: currentShipmentDetails?.destination || "",
+              }}
             />
           )}
         </div>
