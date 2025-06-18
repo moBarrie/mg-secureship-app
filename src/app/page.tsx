@@ -2,10 +2,10 @@
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { NewShipmentSection } from "@/components/sections/NewShipmentSection";
-import { ShipmentTrackingSection } from "@/components/shipment/ShipmentTrackingSection";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -32,8 +32,20 @@ export default function Home() {
               international regulations.
             </p>
 
+            <div className="flex justify-center gap-4 mb-12">
+              <Link href="/track">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="font-semibold px-8 py-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 rounded-full bg-accent hover:bg-accent/90"
+                >
+                  Track Your Shipment
+                </Button>
+              </Link>
+            </div>
+
             {/* Hero Image Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-center max-w-6xl mx-auto mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-center max-w-6xl mx-auto">
               <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
                   src="/images/gold-shipping.jpeg"
@@ -315,120 +327,104 @@ export default function Home() {
         </section>
 
         {/* Gallery Section */}
-        <section className="py-24 bg-muted">
+        <section className="py-24 bg-muted/50">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-              Gallery
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+              Our Services Gallery
             </h2>
-            <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-              Explore our secure facilities and logistics operations through our
-              image gallery.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {/* Gallery Item 1 */}
-              <div className="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Gold Transport */}
+              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
-                  src="/images/gold-shipping.jpeg"
-                  alt="Gold Shipping Operations"
-                  fill
-                  className="object-cover transform transition-transform duration-500 group-hover:scale-110"
+                  src="/images/gold-bars.jpeg"
+                  alt="Gold bars being transported"
+                  width={400}
+                  height={300}
+                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                  <h3 className="text-white text-xl font-semibold mb-2">
-                    Gold Shipping
-                  </h3>
-                  <p className="text-white/90 text-sm">
-                    Secure handling and transportation of precious metals
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold px-4 text-center">
+                    Precious Metal Transport
                   </p>
                 </div>
               </div>
 
-              {/* Gallery Item 2 */}
-              <div className="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
-                <Image
-                  src="/images/diamond-shipping.jpeg"
-                  alt="Diamond Shipping Security"
-                  fill
-                  className="object-cover transform transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                  <h3 className="text-white text-xl font-semibold mb-2">
-                    Diamond Security
-                  </h3>
-                  <p className="text-white/90 text-sm">
-                    Specialized handling of high-value diamonds
-                  </p>
-                </div>
-              </div>
-
-              {/* Gallery Item 3 */}
-              <div className="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
+              {/* Secure Storage */}
+              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
                   src="/images/vault.jpeg"
-                  alt="Secure Storage Vault"
-                  fill
-                  className="object-cover transform transition-transform duration-500 group-hover:scale-110"
+                  alt="Secure vault facility"
+                  width={400}
+                  height={300}
+                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                  <h3 className="text-white text-xl font-semibold mb-2">
-                    Secure Vaults
-                  </h3>
-                  <p className="text-white/90 text-sm">
-                    State-of-the-art storage facilities
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold px-4 text-center">
+                    Secure Storage Facilities
                   </p>
                 </div>
               </div>
 
-              {/* Gallery Item 4 */}
-              <div className="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
-                <Image
-                  src="/images/vault-gold.jpeg"
-                  alt="Gold Storage"
-                  fill
-                  className="object-cover transform transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                  <h3 className="text-white text-xl font-semibold mb-2">
-                    Gold Storage
-                  </h3>
-                  <p className="text-white/90 text-sm">
-                    Protected storage for precious metals
-                  </p>
-                </div>
-              </div>
-
-              {/* Gallery Item 5 */}
-              <div className="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
+              {/* Cargo Transport */}
+              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
                   src="/images/cargo-plane.jpeg"
-                  alt="Air Transport"
-                  fill
-                  className="object-cover transform transition-transform duration-500 group-hover:scale-110"
+                  alt="Cargo plane transport"
+                  width={400}
+                  height={300}
+                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                  <h3 className="text-white text-xl font-semibold mb-2">
-                    Air Transport
-                  </h3>
-                  <p className="text-white/90 text-sm">
-                    Global air freight solutions
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold px-4 text-center">
+                    Air Freight Services
                   </p>
                 </div>
               </div>
 
-              {/* Gallery Item 6 */}
-              <div className="group relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
+              {/* Transport Services */}
+              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
                   src="/images/transport.jpeg"
-                  alt="Ground Transport"
-                  fill
-                  className="object-cover transform transition-transform duration-500 group-hover:scale-110"
+                  alt="Transport services"
+                  width={400}
+                  height={300}
+                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                  <h3 className="text-white text-xl font-semibold mb-2">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold px-4 text-center">
                     Ground Transport
-                  </h3>
-                  <p className="text-white/90 text-sm">
-                    Secure ground transportation services
+                  </p>
+                </div>
+              </div>
+
+              {/* Diamond Shipping */}
+              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
+                <Image
+                  src="/images/diamond-shipping.jpeg"
+                  alt="Diamond shipping"
+                  width={400}
+                  height={300}
+                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold px-4 text-center">
+                    Diamond Transport Solutions
+                  </p>
+                </div>
+              </div>
+
+              {/* Gold Storage */}
+              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
+                <Image
+                  src="/images/vault-gold.jpeg"
+                  alt="Gold storage"
+                  width={400}
+                  height={300}
+                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold px-4 text-center">
+                    Precious Metal Storage
                   </p>
                 </div>
               </div>
@@ -547,9 +543,7 @@ export default function Home() {
           </div>
         </section>
 
-        <NewShipmentSection />
         <Separator className="my-8 bg-border/70" />
-        <ShipmentTrackingSection />
       </main>
       <Footer />
     </div>
