@@ -3,7 +3,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "M&G SecureShip",
+  title: "Global Atlantic Express",
   description:
     "Secure and compliant shipping for precious minerals by M&G Shipping.",
 };

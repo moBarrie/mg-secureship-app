@@ -130,7 +130,7 @@ export async function POST(request: Request) {
         'Thank you for choosing our services!',
         '',
         'Best regards,',
-        'M&G SecureShip Team'
+        'Global Atlantic Express Team'
       ].join('\n');
 
       await sendEmail({

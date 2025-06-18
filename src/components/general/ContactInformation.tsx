@@ -6,13 +6,13 @@ const offices = [
     name: "Sierra Leone Office",
     address: "123 Freetown Road, Freetown, Sierra Leone",
     phone: "+232 12 345 678",
-    email: "sl.office@mgsecureship.com",
+    email: "sl.office@globalatlanticexpress.com",
   },
   {
     name: "London Office",
     address: "456 The City Plaza, London, UK",
     phone: "+44 20 7123 4567",
-    email: "uk.office@mgsecureship.com",
+    email: "uk.office@globalatlanticexpress.com",
   },
 ];
 

@@ -9,7 +9,7 @@ export function Header() {
         <Link href="/" className="flex items-center space-x-3 group">
           <ShipIcon className="h-10 w-10 text-accent transition-transform duration-300 group-hover:scale-110" />
           <h1 className="text-3xl font-bold font-headline tracking-tight">
-            M&amp;G SecureShip
+            Global Atlantic Express
           </h1>
         </Link>
         <div className="flex items-center gap-6">

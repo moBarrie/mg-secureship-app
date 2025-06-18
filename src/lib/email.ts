@@ -43,10 +43,10 @@ export async function sendEmail(data: {
     console.log('SMTP connection verified successfully');
 
     const mailOptions = {
-      from: `"SecureShip Contact" <${process.env.SMTP_FROM}>`,
+      from: `"Global Atlantic Express Contact" <${process.env.SMTP_FROM}>`,
       to: process.env.CONTACT_EMAIL,
       replyTo: data.email,
-      subject: `SecureShip Contact: ${data.subject}`,
+      subject: `Global Atlantic Express Contact: ${data.subject}`,
       text: `Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`,
       html: `
         <h2>New Contact Form Submission</h2>

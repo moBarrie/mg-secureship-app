@@ -12,9 +12,12 @@ interface SavedShipmentsSectionProps {
   newlySavedShipment: Shipment | null; // To trigger re-fetch or update
 }
 
-const LOCAL_STORAGE_KEY = "mgSecureShip_savedShipments";
+const LOCAL_STORAGE_KEY = "globalAtlanticExpress_savedShipments";
 
-export function SavedShipmentsSection({ onUseShipment, newlySavedShipment }: SavedShipmentsSectionProps) {
+export function SavedShipmentsSection({
+  onUseShipment,
+  newlySavedShipment,
+}: SavedShipmentsSectionProps) {
   const [savedShipments, setSavedShipments] = useState<Shipment[]>([]);
   const { toast } = useToast();
 
@@ -48,7 +51,9 @@ export function SavedShipmentsSection({ onUseShipment, newlySavedShipment }: Sav
 
   const handleDeleteShipment = (shipmentId: string) => {
     try {
-      const updatedShipments = savedShipments.filter(s => s.id !== shipmentId);
+      const updatedShipments = savedShipments.filter(
+        (s) => s.id !== shipmentId
+      );
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedShipments));
       setSavedShipments(updatedShipments);
       toast({
@@ -76,20 +81,30 @@ export function SavedShipmentsSection({ onUseShipment, newlySavedShipment }: Sav
           <div className="text-center text-muted-foreground py-8">
             <p className="mb-4">You have no saved shipments yet.</p>
             <p>Shipments you save for future use will appear here.</p>
-            <Button variant="ghost" className="mt-4 text-accent hover:text-accent/90" onClick={() => document.getElementById('new-shipment-form')?.scrollIntoView({ behavior: 'smooth' })}>
+            <Button
+              variant="ghost"
+              className="mt-4 text-accent hover:text-accent/90"
+              onClick={() =>
+                document
+                  .getElementById("new-shipment-form")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
               <PlusCircle className="mr-2 h-4 w-4" /> Create a New Shipment
             </Button>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {savedShipments.sort((a,b) => (b.savedAt || 0) - (a.savedAt || 0)).map((shipment) => (
-              <SavedShipmentCard
-                key={shipment.id}
-                shipment={shipment}
-                onUse={handleUseShipment}
-                onDelete={handleDeleteShipment}
-              />
-            ))}
+            {savedShipments
+              .sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0))
+              .map((shipment) => (
+                <SavedShipmentCard
+                  key={shipment.id}
+                  shipment={shipment}
+                  onUse={handleUseShipment}
+                  onDelete={handleDeleteShipment}
+                />
+              ))}
           </div>
         )}
       </div>

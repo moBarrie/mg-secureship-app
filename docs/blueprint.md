@@ -1,4 +1,4 @@
-# **App Name**: M&G SecureShip
+# **App Name**: Global Atlantic Express
 
 ## Core Features:
 

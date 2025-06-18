@@ -64,8 +64,8 @@ export function Footer() {
         </div>
         <div className="text-center py-6 text-sm text-muted-foreground border-t border-border/50 mt-8">
           <p>
-            &copy; {new Date().getFullYear()} M&amp;G SecureShip. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} Global Atlantic Express. All
+            rights reserved.
           </p>
         </div>
       </div>
