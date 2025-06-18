@@ -6,15 +6,25 @@ export async function sendEmail(data: {
   subject: string;
   message: string;
 }) {
-  console.log('Attempting to send email with config:', {
+  // Log email configuration (without sensitive data)
+  const smtpConfig = {
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
-    secure: process.env.SMTP_SECURE,
+    secure: process.env.SMTP_SECURE === "true",
     auth: {
       user: process.env.SMTP_USER,
-      // Not logging password for security
+      // Password omitted for security
     }
-  });
+  };
+  console.log('SMTP Configuration:', smtpConfig);
+
+  // Validate required environment variables
+  const requiredEnvVars = ['SMTP_HOST', 'SMTP_PORT', 'SMTP_USER', 'SMTP_PASSWORD', 'SMTP_FROM', 'CONTACT_EMAIL'];
+  const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+  
+  if (missingEnvVars.length > 0) {
+    throw new Error(`Missing required environment variables: ${missingEnvVars.join(', ')}`);
+  }
 
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -28,6 +38,7 @@ export async function sendEmail(data: {
 
   try {
     // Verify connection configuration
+    console.log('Verifying SMTP connection...');
     await transporter.verify();
     console.log('SMTP connection verified successfully');
 
@@ -48,13 +59,20 @@ export async function sendEmail(data: {
       `,
     };
 
-    console.log('Sending email to:', process.env.CONTACT_EMAIL);
+    console.log('Sending email...');
     const info = await transporter.sendMail(mailOptions);
     console.log('Email sent successfully:', info.messageId);
-
     return info;
+
   } catch (error) {
-    console.error('Error in sendEmail:', error);
+    console.error('Failed to send email:', error);
+    if (error instanceof Error) {
+      console.error('Error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+      });
+    }
     throw error;
   }
 }
