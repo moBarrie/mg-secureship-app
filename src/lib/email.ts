@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 export async function sendEmail(data: {
   name: string;
   email: string;
+  phone: string;
   subject: string;
   message: string;
 }) {
@@ -47,11 +48,12 @@ export async function sendEmail(data: {
       to: process.env.CONTACT_EMAIL,
       replyTo: data.email,
       subject: `Global Atlantic Express Contact: ${data.subject}`,
-      text: `Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`,
+      text: `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\n\nMessage:\n${data.message}`,
       html: `
         <h2>New Contact Form Submission</h2>
         <p><strong>From:</strong> ${data.name}</p>
         <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Phone:</strong> ${data.phone}</p>
         <p><strong>Subject:</strong> ${data.subject}</p>
         <hr />
         <h3>Message:</h3>

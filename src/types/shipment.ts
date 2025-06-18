@@ -1,8 +1,10 @@
 export interface ShipmentInput {
   senderName: string;
   senderEmail: string;
+  senderPhone: string;
   receiverName: string;
   receiverEmail: string;
+  receiverPhone: string;
   parcelType: string;
   weight: string;
   value: string;

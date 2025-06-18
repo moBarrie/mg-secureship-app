@@ -14,11 +14,19 @@ const shipmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  senderPhone: {
+    type: String,
+    required: true,
+  },
   receiverName: {
     type: String,
     required: true,
   },
   receiverEmail: {
+    type: String,
+    required: true,
+  },
+  receiverPhone: {
     type: String,
     required: true,
   },

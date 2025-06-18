@@ -28,10 +28,12 @@ import { Textarea } from "@/components/ui/textarea";
 const formSchema = z.object({
   senderName: z.string().min(2, "Sender name must be at least 2 characters"),
   senderEmail: z.string().email("Invalid sender email"),
+  senderPhone: z.string().min(7, "Sender phone must be at least 7 digits"),
   receiverName: z
     .string()
     .min(2, "Receiver name must be at least 2 characters"),
   receiverEmail: z.string().email("Invalid receiver email"),
+  receiverPhone: z.string().min(7, "Receiver phone must be at least 7 digits"),
   parcelType: z.string().min(2, "Parcel type must be at least 2 characters"),
   weight: z.string().min(1, "Weight is required"),
   value: z.string().min(1, "Value is required"),
@@ -56,12 +58,14 @@ export function ShipmentForm({
     defaultValues: {
       senderName: initialData?.senderName || "",
       senderEmail: initialData?.senderEmail || "",
+      senderPhone: initialData?.senderPhone || "",
       receiverName: initialData?.receiverName || "",
       receiverEmail: initialData?.receiverEmail || "",
+      receiverPhone: initialData?.receiverPhone || "",
       parcelType: initialData?.parcelType || "",
       weight: initialData?.weight || "",
       value: initialData?.value || "",
-      origin: initialData?.origin || "Sierra Leone", // Default origin
+      origin: initialData?.origin || "",
       destination: initialData?.destination || "",
       notes: initialData?.notes || "",
     },
@@ -110,6 +114,19 @@ export function ShipmentForm({
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="senderPhone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sender Phone</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Sender phone number" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <div className="space-y-4">
@@ -138,6 +155,19 @@ export function ShipmentForm({
                           placeholder="Enter receiver's email"
                           {...field}
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="receiverPhone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Receiver Phone</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Receiver phone number" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

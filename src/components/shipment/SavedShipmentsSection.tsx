@@ -39,20 +39,29 @@ export function SavedShipmentsSection({
 
   const handleUseShipment = (shipment: Shipment) => {
     onUseShipment({
-      mineralType: shipment.mineralType,
-      quantity: shipment.quantity,
+      senderName: shipment.senderName,
+      senderEmail: shipment.senderEmail,
+      senderPhone: shipment.senderPhone,
+      receiverName: shipment.receiverName,
+      receiverEmail: shipment.receiverEmail,
+      receiverPhone: shipment.receiverPhone,
+      parcelType: shipment.parcelType,
+      weight: shipment.weight,
+      value: shipment.value,
+      origin: shipment.origin,
       destination: shipment.destination,
+      notes: shipment.notes,
     });
     toast({
       title: "Shipment Loaded",
-      description: `Details for ${shipment.mineralType} to ${shipment.destination} loaded into the form.`,
+      description: `Details for ${shipment.parcelType} to ${shipment.destination} loaded into the form.`,
     });
   };
 
-  const handleDeleteShipment = (shipmentId: string) => {
+  const handleDeleteShipment = (shipmentTrackingId: string) => {
     try {
       const updatedShipments = savedShipments.filter(
-        (s) => s.id !== shipmentId
+        (s) => s.trackingId !== shipmentTrackingId
       );
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedShipments));
       setSavedShipments(updatedShipments);
@@ -95,16 +104,14 @@ export function SavedShipmentsSection({
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {savedShipments
-              .sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0))
-              .map((shipment) => (
-                <SavedShipmentCard
-                  key={shipment.id}
-                  shipment={shipment}
-                  onUse={handleUseShipment}
-                  onDelete={handleDeleteShipment}
-                />
-              ))}
+            {savedShipments.map((shipment) => (
+              <SavedShipmentCard
+                key={shipment.trackingId}
+                shipment={shipment}
+                onUse={() => handleUseShipment(shipment)}
+                onDelete={() => handleDeleteShipment(shipment.trackingId)}
+              />
+            ))}
           </div>
         )}
       </div>
