@@ -84,7 +84,7 @@ export function ParcelDetailsForm() {
         origin: "Sierra Leone", // Hardcoded as per requirement
       };
 
-      console.log('Submitting shipment data...');
+      console.log("Submitting shipment data...");
       const response = await fetch("/api/shipping", {
         method: "POST",
         headers: {
@@ -93,12 +93,15 @@ export function ParcelDetailsForm() {
         body: JSON.stringify(shipmentData),
       });
 
-      console.log('Response status:', response.status);
-      
+      console.log("Response status:", response.status);
+
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('API Error:', errorData);
-        throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`);
+        console.error("API Error:", errorData);
+        throw new Error(
+          errorData.message ||
+            `Error ${response.status}: ${response.statusText}`
+        );
       }
 
       const result = await response.json();
