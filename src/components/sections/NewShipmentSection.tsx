@@ -9,9 +9,8 @@ import { ComplianceResultCard } from "@/components/shipment/ComplianceResultCard
 import { ShipmentTrackingCard } from "@/components/shipment/ShipmentTrackingCard";
 import { useToast } from "@/hooks/use-toast";
 
-// Generate a random tracking ID
 function generateTrackingId() {
-  return `SL${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+  return `SHP${Date.now().toString(36).toUpperCase()}`;
 }
 
 export function NewShipmentSection() {
@@ -26,52 +25,60 @@ export function NewShipmentSection() {
     setError(null);
     setComplianceAdvice(null);
 
-    const newShipment: Shipment = {
-      ...data,
-      id: Math.random().toString(36).substring(2),
-      origin: "Sierra Leone",
-      trackingId: generateTrackingId(),
-      status: "Processing",
-      savedAt: Date.now(),
-    };
-
-    setCurrentShipment(newShipment);
-
-    const input: ComplianceInformationInput = {
-      ...data,
-      origin: "Sierra Leone",
-    };
-
     try {
-      const result = await getComplianceInformation(input);
-      setComplianceAdvice(result.complianceInformation);
-      
-      // Update shipment with compliance advice
-      setCurrentShipment(prev => prev ? {
-        ...prev,
-        complianceAdvice: result.complianceInformation
-      } : null);
-
-      // Save shipment to local storage
-      const savedShipments = JSON.parse(localStorage.getItem("shipments") || "[]");
-      localStorage.setItem("shipments", JSON.stringify([
-        ...savedShipments,
-        {
-          ...newShipment,
-          complianceAdvice: result.complianceInformation
-        }
-      ]));
-
-      toast({
-        title: "Shipment Created",
-        description: `Tracking ID: ${newShipment.trackingId}`,
+      // First, get compliance information
+      const complianceResult = await getComplianceInformation({
+        mineralType: data.parcelType, // Map parcelType to mineralType
+        quantity: data.weight, // Map weight to quantity
+        destination: data.destination,
+        origin: data.origin || "Sierra Leone",
       });
-    } catch (e) {
-      console.error("Error processing shipment:", e);
-      setError("Failed to process shipment. Please try again.");
+
+      setComplianceAdvice(complianceResult.complianceInformation);
+
+      // Create the shipment with tracking details
+      const shipmentData = {
+        ...data,
+        trackingId: generateTrackingId(),
+        status: "pending" as const,
+        statusHistory: [
+          {
+            status: "pending" as const,
+            notes: "Shipment created",
+            timestamp: new Date(),
+          },
+        ],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      // Send to API
+      const response = await fetch("/api/shipping", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(shipmentData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to create shipment");
+      }
+
+      setCurrentShipment(result.shipment);
+
       toast({
-        title: "Shipment Processing Failed",
-        description: "Could not process your shipment. Please try again.",
+        title: "Success!",
+        description: `Shipment created successfully. Tracking ID: ${result.shipment.trackingId}`,
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to create shipment";
+      setError(message);
+      toast({
+        title: "Error",
+        description: message,
         variant: "destructive",
       });
     } finally {
@@ -80,45 +87,25 @@ export function NewShipmentSection() {
   };
 
   return (
-    <section id="new-shipment-form" className="py-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              New Shipment
-            </h2>
-            <p className="text-muted-foreground">
-              Fill out the form below to create a new shipment and get instant compliance information.
-            </p>
-          </div>
+    <div className="space-y-8">
+      <ShipmentForm onSubmit={handleShipmentSubmit} isLoading={isLoading} />
 
-          <ShipmentForm isLoading={isLoading} onSubmit={handleShipmentSubmit} />
-          
-          {error && (
-            <div className="p-4 bg-destructive/10 text-destructive rounded-lg">
-              {error}
-            </div>
-          )}
-
-          {currentShipment && (
-            <div className="space-y-6">
-              <ShipmentTrackingCard shipment={currentShipment} />
-              {complianceAdvice && (
-                <ComplianceResultCard
-                  advice={complianceAdvice}
-                  isLoading={isLoading}
-                  error={error}
-                  shipmentDetails={{
-                    mineralType: currentShipment.mineralType,
-                    quantity: currentShipment.quantity,
-                    destination: currentShipment.destination,
-                  }}
-                />
-              )}
-            </div>
-          )}
+      {error && (
+        <div className="p-4 rounded-lg bg-destructive/10 text-destructive">
+          {error}
         </div>
-      </div>
-    </section>
+      )}
+
+      {complianceAdvice && (
+        <ComplianceResultCard complianceInformation={complianceAdvice} />
+      )}
+
+      {currentShipment && (
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold">Shipment Created</h2>
+          <ShipmentTrackingCard shipment={currentShipment} />
+        </div>
+      )}
+    </div>
   );
 }

@@ -10,12 +10,23 @@ import { useToast } from "@/hooks/use-toast";
 
 export function ShipmentTrackingSection() {
   const [trackingId, setTrackingId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [shipment, setShipment] = useState<Shipment | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleTrackingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!trackingId.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a tracking ID",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
     setError(null);
     setShipment(null);
 
@@ -29,31 +40,22 @@ export function ShipmentTrackingSection() {
         throw new Error(data.message || "Failed to track shipment");
       }
 
-      if (data.success && data.shipment) {
-        setShipment(data.shipment);
-        toast({
-          title: "Shipment Found",
-          description: "Displaying tracking information for your shipment.",
-        });
-      } else {
-        setError("No shipment found with this tracking ID.");
-        toast({
-          title: "Shipment Not Found",
-          description: "Please check the tracking ID and try again.",
-          variant: "destructive",
-        });
+      if (!data.shipment) {
+        throw new Error("Shipment not found");
       }
-    } catch (error) {
-      console.error("Error tracking shipment:", error);
-      setError(
-        error instanceof Error ? error.message : "Failed to track shipment"
-      );
+
+      setShipment(data.shipment);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Failed to track shipment";
+      setError(message);
       toast({
         title: "Error",
-        description:
-          error instanceof Error ? error.message : "Failed to track shipment",
+        description: message,
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -79,21 +81,30 @@ export function ShipmentTrackingSection() {
                 value={trackingId}
                 onChange={(e) => setTrackingId(e.target.value)}
                 className="flex-1"
+                disabled={isLoading}
               />
-              <Button type="submit" disabled={!trackingId.trim()}>
-                <PackageSearch className="mr-2 h-4 w-4" />
-                Track
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  "Tracking..."
+                ) : (
+                  <>
+                    <PackageSearch className="mr-2 h-4 w-4" />
+                    Track
+                  </>
+                )}
               </Button>
             </div>
           </form>
 
           {error && (
-            <div className="p-4 bg-destructive/10 text-destructive rounded-lg text-sm">
+            <div className="mt-4 p-4 bg-destructive/10 text-destructive rounded-md">
               {error}
             </div>
           )}
 
-          {shipment && <ShipmentTrackingCard shipment={shipment} />}
+          {shipment && (
+            <ShipmentTrackingCard shipment={shipment} className="mt-8" />
+          )}
         </div>
       </div>
     </section>
