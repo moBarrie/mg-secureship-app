@@ -164,7 +164,7 @@ export function ContactForm() {
           type="submit"
           className="w-full"
           disabled={isLoading}
-          variant="primary"
+          variant="default"
         >
           {isLoading ? (
             <span className="flex items-center gap-2">
