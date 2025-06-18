@@ -21,7 +21,22 @@ const shipmentSchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    console.log('POST /api/shipping - Starting request');
+    
+    // Log environment variables status (without exposing values)
+    const envStatus = {
+      MONGODB_URI: !!process.env.MONGODB_URI,
+      SMTP_HOST: !!process.env.SMTP_HOST,
+      SMTP_PORT: !!process.env.SMTP_PORT,
+      SMTP_USER: !!process.env.SMTP_USER,
+      SMTP_PASSWORD: !!process.env.SMTP_PASSWORD,
+      SMTP_FROM: !!process.env.SMTP_FROM,
+      CONTACT_EMAIL: !!process.env.CONTACT_EMAIL,
+    };
+    console.log('Environment variables status:', envStatus);
+
     const body = await request.json();
+    console.log('Received body:', { ...body, senderEmail: '***@***.com' }); // Hide sensitive data
     
     // Generate tracking ID before validation
     const dataWithTracking = {
@@ -30,22 +45,34 @@ export async function POST(request: Request) {
       status: "pending"
     };
     
+    console.log('Attempting database connection...');
+    await dbConnect();
+    console.log('Database connected successfully');
+    
     // Validate the complete data
+    console.log('Validating data...');
     const data = shipmentSchema.parse(dataWithTracking);
 
     // Connect to database
     await dbConnect();
 
     // Create new shipment in MongoDB
+    console.log('Creating new shipment...');
     const shipment = new Shipment(data);
+    
+    console.log('Saving shipment to database...');
     await shipment.save();
+    console.log('Shipment saved successfully');
 
     // Add initial status to history
+    console.log('Adding initial status to history...');
     shipment.statusHistory.push({
       status: 'pending',
       notes: 'Shipment created',
       timestamp: new Date(),
     });
+    
+    console.log('Preparing email notifications...');
     await sendEmail({
       name: data.senderName,
       email: data.senderEmail,
