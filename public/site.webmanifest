@@ -1,0 +1,17 @@
+{
+  "name": "Global Atlantic Express",
+  "short_name": "Global Atlantic",
+  "description": "Global logistics and secure shipping services",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#1E40AF",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

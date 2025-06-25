@@ -5,7 +5,28 @@ import { Toaster } from "@/components/ui/toaster";
 export const metadata: Metadata = {
   title: "Global Atlantic Express",
   description:
-    "Secure and compliant shipping for precious minerals by M&G Shipping.",
+    "Global logistics and secure shipping services - your trusted partner in worldwide cargo transportation.",
+  icons: {
+    icon: [
+      {
+        url: "/favicon.svg",
+        type: "image/svg+xml",
+      },
+    ],
+    apple: [
+      {
+        url: "/favicon.svg",
+        type: "image/svg+xml",
+      },
+    ],
+  },
+  manifest: "/site.webmanifest",
+  themeColor: "#1E40AF",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Global Atlantic Express",
+  },
 };
 
 export default function RootLayout({
