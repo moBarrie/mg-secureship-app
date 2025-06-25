@@ -1,6 +1,7 @@
 "use client";
 
 import { ContactForm } from "@/components/general/ContactForm";
+import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import Image from "next/image";
 
 export function ContactFormSection() {
@@ -19,14 +20,22 @@ export function ContactFormSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
             Have questions about our services? We&apos;re here to help. Contact
             us for secure shipping solutions and expert assistance.
           </p>
         </div>
         <div className="max-w-2xl mx-auto relative">
           <div className="bg-background/80 backdrop-blur-sm rounded-xl shadow-lg p-8 border border-border/50">
-            <ContactForm />
+            <div className="flex flex-col gap-6">
+              <ContactForm />
+              <div className="flex justify-center mt-4">
+                <WhatsAppButton
+                  variant="default"
+                  message="Hello! I would like to inquire about your shipping services."
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

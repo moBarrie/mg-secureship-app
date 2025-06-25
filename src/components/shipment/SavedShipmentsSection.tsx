@@ -4,6 +4,7 @@ import type { Shipment, ShipmentInput } from "@/types/shipment";
 import { SavedShipmentCard } from "./SavedShipmentCard";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import { useToast } from "@/hooks/use-toast";
 import { Archive, PlusCircle } from "lucide-react";
 
@@ -90,17 +91,23 @@ export function SavedShipmentsSection({
           <div className="text-center text-muted-foreground py-8">
             <p className="mb-4">You have no saved shipments yet.</p>
             <p>Shipments you save for future use will appear here.</p>
-            <Button
-              variant="ghost"
-              className="mt-4 text-accent hover:text-accent/90"
-              onClick={() =>
-                document
-                  .getElementById("new-shipment-form")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              <PlusCircle className="mr-2 h-4 w-4" /> Create a New Shipment
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-6">
+              <Button
+                variant="ghost"
+                className="text-accent hover:text-accent/90"
+                onClick={() =>
+                  document
+                    .getElementById("new-shipment-form")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+              >
+                <PlusCircle className="mr-2 h-4 w-4" /> Create a New Shipment
+              </Button>
+              <WhatsAppButton
+                message="Hello! I need assistance with creating a new shipment."
+                variant="outline"
+              />
+            </div>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
