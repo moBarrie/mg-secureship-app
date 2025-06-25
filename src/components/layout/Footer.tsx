@@ -1,5 +1,6 @@
 import { ContactFormSection } from "@/components/sections/ContactFormSection";
 import { Separator } from "@/components/ui/separator";
+import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 
 export function Footer() {
   return (
@@ -54,11 +55,16 @@ export function Footer() {
           </div>
           <div>
             <h3 className="font-semibold text-lg mb-4">Contact</h3>
-            <div className="space-y-2 text-muted-foreground">
-              <p>Freetown, Sierra Leone</p>
-              <p>10 William Street</p>
-              <p>Email: medalbarrie@gmail.com</p>
-              <p>Tel: +232 7X XXX XXX</p>
+            <div className="space-y-4">
+              <div className="text-muted-foreground">
+                <p>Freetown, Sierra Leone</p>
+                <p>10 William Street</p>
+              </div>
+              <WhatsAppButton
+                variant="outline"
+                message="Hello! I would like to get in touch regarding your services."
+                className="mt-2"
+              />
             </div>
           </div>
         </div>
