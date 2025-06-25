@@ -469,7 +469,9 @@ export default function Home() {
                   </div>
                   <div className="ml-4">
                     <h4 className="font-semibold">Mohammed Al-Rashid</h4>
-                    <p className="text-sm text-muted-foreground">Gold Trader, Dubai</p>
+                    <p className="text-sm text-muted-foreground">
+                      Gold Trader, Dubai
+                    </p>
                   </div>
                 </div>
                 <p className="text-muted-foreground">
@@ -498,13 +500,15 @@ export default function Home() {
                   </div>
                   <div className="ml-4">
                     <h4 className="font-semibold">Ibrahim Kamara</h4>
-                    <p className="text-sm text-muted-foreground">Diamond Exporter, Freetown</p>
+                    <p className="text-sm text-muted-foreground">
+                      Diamond Exporter, Freetown
+                    </p>
                   </div>
                 </div>
                 <p className="text-muted-foreground">
-                  "I've been working with Global Atlantic Express for all my diamond
-                  shipments. Their compliance expertise and secure handling give me
-                  complete peace of mind."
+                  "I've been working with Global Atlantic Express for all my
+                  diamond shipments. Their compliance expertise and secure
+                  handling give me complete peace of mind."
                 </p>
               </div>
               <div className="bg-background/80 backdrop-blur-sm p-8 rounded-xl shadow-lg">
@@ -527,13 +531,15 @@ export default function Home() {
                   </div>
                   <div className="ml-4">
                     <h4 className="font-semibold">Victoria Bangura</h4>
-                    <p className="text-sm text-muted-foreground">Minerals Consultant, London</p>
+                    <p className="text-sm text-muted-foreground">
+                      Minerals Consultant, London
+                    </p>
                   </div>
                 </div>
                 <p className="text-muted-foreground">
-                  "Their global logistics network and understanding of international
-                  shipping regulations make them the perfect partner for our
-                  mineral transport needs."
+                  "Their global logistics network and understanding of
+                  international shipping regulations make them the perfect
+                  partner for our mineral transport needs."
                 </p>
               </div>
             </div>
