@@ -468,8 +468,8 @@ export default function Home() {
                     </svg>
                   </div>
                   <div className="ml-4">
-                    <h4 className="font-semibold">John Smith</h4>
-                    <p className="text-sm text-muted-foreground">Gold Trader</p>
+                    <h4 className="font-semibold">Mohammed Al-Rashid</h4>
+                    <p className="text-sm text-muted-foreground">Gold Trader, Dubai</p>
                   </div>
                 </div>
                 <p className="text-muted-foreground">
@@ -497,16 +497,14 @@ export default function Home() {
                     </svg>
                   </div>
                   <div className="ml-4">
-                    <h4 className="font-semibold">Sarah Johnson</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Diamond Merchant
-                    </p>
+                    <h4 className="font-semibold">Ibrahim Kamara</h4>
+                    <p className="text-sm text-muted-foreground">Diamond Exporter, Freetown</p>
                   </div>
                 </div>
                 <p className="text-muted-foreground">
-                  "Their compliance management made international shipping
-                  seamless. I highly recommend their services for valuable
-                  cargo."
+                  "I've been working with Global Atlantic Express for all my diamond
+                  shipments. Their compliance expertise and secure handling give me
+                  complete peace of mind."
                 </p>
               </div>
               <div className="bg-background/80 backdrop-blur-sm p-8 rounded-xl shadow-lg">
@@ -528,15 +526,14 @@ export default function Home() {
                     </svg>
                   </div>
                   <div className="ml-4">
-                    <h4 className="font-semibold">Michael Chen</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Mining Executive
-                    </p>
+                    <h4 className="font-semibold">Victoria Bangura</h4>
+                    <p className="text-sm text-muted-foreground">Minerals Consultant, London</p>
                   </div>
                 </div>
                 <p className="text-muted-foreground">
-                  "Fast, reliable, and secure. Their global network and 24/7
-                  support give us peace of mind for all our shipments."
+                  "Their global logistics network and understanding of international
+                  shipping regulations make them the perfect partner for our
+                  mineral transport needs."
                 </p>
               </div>
             </div>
