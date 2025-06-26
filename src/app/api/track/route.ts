@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
     console.log('GET /api/track - Tracking ID:', trackingId);
 
     if (!trackingId) {
+      console.log('No tracking ID provided');
       return NextResponse.json(
         { 
           success: false, 
@@ -19,9 +20,11 @@ export async function GET(request: NextRequest) {
     }
 
     // Get shipment from Vercel Blob
+    console.log('Searching for shipment with tracking ID:', trackingId);
     const shipment = await getShipmentByTrackingId(trackingId);
 
     if (!shipment) {
+      console.log('No shipment found for tracking ID:', trackingId);
       return NextResponse.json(
         { 
           success: false, 
@@ -32,7 +35,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    console.log('Shipment found:', shipment.trackingId);
+    console.log('Shipment found successfully:', shipment.trackingId);
 
     return NextResponse.json({
       success: true,

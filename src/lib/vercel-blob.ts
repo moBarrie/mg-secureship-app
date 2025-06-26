@@ -39,8 +39,7 @@ export async function createShipment(shipmentData: Omit<Shipment, 'id' | 'create
     addRandomSuffix: false,
   });
 
-  // Update the index of all shipments
-  await updateShipmentsIndex(shipment.trackingId, 'add');
+  console.log('Shipment created successfully:', shipment.trackingId);
 
   return shipment;
 }
@@ -48,14 +47,28 @@ export async function createShipment(shipmentData: Omit<Shipment, 'id' | 'create
 // Get a shipment by tracking ID
 export async function getShipmentByTrackingId(trackingId: string): Promise<Shipment | null> {
   try {
-    const filename = `shipments/${trackingId}.json`;
-    const response = await fetch(`${process.env.VERCEL_URL || 'http://localhost:3000'}/_vercel/blob/${filename}`);
+    console.log('Looking for shipment with tracking ID:', trackingId);
+    
+    // List all blobs to find the shipment file
+    const { blobs } = await list({
+      prefix: `shipments/${trackingId}.json`,
+    });
+
+    if (blobs.length === 0) {
+      console.log('No blob found for tracking ID:', trackingId);
+      return null;
+    }
+
+    // Fetch the blob content
+    const response = await fetch(blobs[0].url);
     
     if (!response.ok) {
+      console.error('Failed to fetch blob content:', response.status);
       return null;
     }
 
     const shipment = await response.json();
+    console.log('Shipment found:', shipment.trackingId);
     return shipment;
   } catch (error) {
     console.error('Error fetching shipment:', error);
@@ -66,22 +79,33 @@ export async function getShipmentByTrackingId(trackingId: string): Promise<Shipm
 // Get all shipments (for admin)
 export async function getAllShipments(): Promise<Shipment[]> {
   try {
-    // Get list of all tracking IDs from index
-    const indexResponse = await fetch(`${process.env.VERCEL_URL || 'http://localhost:3000'}/_vercel/blob/shipments/index.json`);
+    console.log('Fetching all shipments...');
     
-    if (!indexResponse.ok) {
-      return [];
-    }
+    // List all shipment blobs
+    const { blobs } = await list({
+      prefix: 'shipments/',
+    });
 
-    const trackingIds: string[] = await indexResponse.json();
-    
+    // Filter out non-JSON files and the index file
+    const shipmentBlobs = blobs.filter(blob => 
+      blob.pathname.endsWith('.json') && 
+      !blob.pathname.includes('index.json')
+    );
+
+    console.log(`Found ${shipmentBlobs.length} shipment files`);
+
     // Fetch all shipments
     const shipments: Shipment[] = [];
     
-    for (const trackingId of trackingIds) {
-      const shipment = await getShipmentByTrackingId(trackingId);
-      if (shipment) {
-        shipments.push(shipment);
+    for (const blob of shipmentBlobs) {
+      try {
+        const response = await fetch(blob.url);
+        if (response.ok) {
+          const shipment = await response.json();
+          shipments.push(shipment);
+        }
+      } catch (error) {
+        console.error(`Error fetching shipment from ${blob.pathname}:`, error);
       }
     }
 
@@ -124,47 +148,26 @@ export async function updateShipment(trackingId: string, updates: Partial<Shipme
 // Delete a shipment
 export async function deleteShipment(trackingId: string): Promise<boolean> {
   try {
-    const filename = `shipments/${trackingId}.json`;
-    await del(`${process.env.VERCEL_URL || 'http://localhost:3000'}/_vercel/blob/${filename}`);
+    console.log('Deleting shipment:', trackingId);
     
-    // Update the index
-    await updateShipmentsIndex(trackingId, 'remove');
+    // List the specific blob to delete
+    const { blobs } = await list({
+      prefix: `shipments/${trackingId}.json`,
+    });
+
+    if (blobs.length === 0) {
+      console.log('Shipment not found for deletion:', trackingId);
+      return false;
+    }
+
+    // Delete the blob
+    await del(blobs[0].url);
+    console.log('Shipment deleted successfully:', trackingId);
     
     return true;
   } catch (error) {
     console.error('Error deleting shipment:', error);
     return false;
-  }
-}
-
-// Helper function to maintain an index of all shipments
-async function updateShipmentsIndex(trackingId: string, action: 'add' | 'remove'): Promise<void> {
-  try {
-    let trackingIds: string[] = [];
-    
-    // Try to fetch existing index
-    try {
-      const indexResponse = await fetch(`${process.env.VERCEL_URL || 'http://localhost:3000'}/_vercel/blob/shipments/index.json`);
-      if (indexResponse.ok) {
-        trackingIds = await indexResponse.json();
-      }
-    } catch {
-      // Index doesn't exist yet, start with empty array
-    }
-
-    if (action === 'add' && !trackingIds.includes(trackingId)) {
-      trackingIds.push(trackingId);
-    } else if (action === 'remove') {
-      trackingIds = trackingIds.filter(id => id !== trackingId);
-    }
-
-    // Store updated index
-    await put('shipments/index.json', JSON.stringify(trackingIds), {
-      access: 'public',
-      addRandomSuffix: false,
-    });
-  } catch (error) {
-    console.error('Error updating shipments index:', error);
   }
 }
 
