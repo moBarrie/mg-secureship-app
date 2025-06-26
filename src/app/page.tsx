@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { Carousel } from "@/components/ui/carousel";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -332,119 +333,92 @@ export default function Home() {
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
               Our Services Gallery
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Gold Transport */}
-              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
-                <Image
-                  src="/images/gold-shipping.jpeg"
-                  alt="Gold shipping and transport"
-                  width={400}
-                  height={300}
-                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
-                  <p className="text-white text-xl font-semibold px-4 text-center">
-                    Gold Shipping Services
-                  </p>
-                </div>
-              </div>
-
-              {/* Secure Vault */}
-              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
-                <Image
-                  src="/images/vault.jpeg"
-                  alt="Secure vault facility"
-                  width={400}
-                  height={300}
-                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
-                  <p className="text-white text-xl font-semibold px-4 text-center">
-                    Secure Storage Facilities
-                  </p>
-                </div>
-              </div>
-
-              {/* Cargo Transport */}
-              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
-                <Image
-                  src="/images/cargo-plane.jpeg"
-                  alt="Cargo plane transport"
-                  width={400}
-                  height={300}
-                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
-                  <p className="text-white text-xl font-semibold px-4 text-center">
-                    Air Freight Services
-                  </p>
-                </div>
-              </div>
-
-              {/* Ground Transport */}
-              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
-                <Image
-                  src="/images/transport.jpeg"
-                  alt="Ground transport services"
-                  width={400}
-                  height={300}
-                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
-                  <p className="text-white text-xl font-semibold px-4 text-center">
-                    Ground Transport
-                  </p>
-                </div>
-              </div>
-
-              {/* Vault Gold Storage */}
-              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
-                <Image
-                  src="/images/vault-gold.jpeg"
-                  alt="Gold storage facility"
-                  width={400}
-                  height={300}
-                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
-                  <p className="text-white text-xl font-semibold px-4 text-center">
-                    Precious Metal Storage
-                  </p>
-                </div>
-              </div>
-
-              {/* Service Image 4 */}
-              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
-                <Image
-                  src="/images/image-4.jpeg"
-                  alt="Professional shipping services"
-                  width={400}
-                  height={300}
-                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
-                  <p className="text-white text-xl font-semibold px-4 text-center">
-                    Professional Services
-                  </p>
-                </div>
-              </div>
-
-              {/* Service Image 5 */}
-              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
-                <Image
-                  src="/images/image-5.jpeg"
-                  alt="Global shipping solutions"
-                  width={400}
-                  height={300}
-                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
-                  <p className="text-white text-xl font-semibold px-4 text-center">
-                    Global Shipping Solutions
-                  </p>
-                </div>
-              </div>
-            </div>
+            <Carousel
+              items={[
+                {
+                  src: "/images/gold-shipping.jpeg",
+                  alt: "Gold shipping and transport",
+                  title: "Gold Shipping Services",
+                },
+                {
+                  src: "/images/vault.jpeg",
+                  alt: "Secure vault facility",
+                  title: "Secure Storage Facilities",
+                },
+                {
+                  src: "/images/cargo-plane.jpeg",
+                  alt: "Cargo plane transport",
+                  title: "Air Freight Services",
+                },
+                {
+                  src: "/images/transport.jpeg",
+                  alt: "Ground transport services",
+                  title: "Ground Transport",
+                },
+                {
+                  src: "/images/vault-gold.jpeg",
+                  alt: "Gold storage facility",
+                  title: "Precious Metal Storage",
+                },
+                {
+                  src: "/images/image-4.jpeg",
+                  alt: "Professional shipping services",
+                  title: "Professional Services",
+                },
+                {
+                  src: "/images/image-5.jpeg",
+                  alt: "Global shipping solutions",
+                  title: "Global Shipping Solutions",
+                },
+                {
+                  src: "/images/image-6.jpeg",
+                  alt: "Logistics operations",
+                  title: "Logistics Operations",
+                },
+                {
+                  src: "/images/image-7.jpeg",
+                  alt: "International shipping",
+                  title: "International Shipping",
+                },
+                {
+                  src: "/images/image-8.jpeg",
+                  alt: "Secure cargo handling",
+                  title: "Secure Cargo Handling",
+                },
+                {
+                  src: "/images/image-9.jpeg",
+                  alt: "Maritime transport",
+                  title: "Maritime Transport",
+                },
+                {
+                  src: "/images/image-10.jpeg",
+                  alt: "Warehouse operations",
+                  title: "Warehouse Operations",
+                },
+                {
+                  src: "/images/image-11.jpeg",
+                  alt: "Supply chain management",
+                  title: "Supply Chain Management",
+                },
+                {
+                  src: "/images/image-12.jpeg",
+                  alt: "Global network",
+                  title: "Global Network",
+                },
+                {
+                  src: "/images/image-13.jpeg",
+                  alt: "Quality assurance",
+                  title: "Quality Assurance",
+                },
+                {
+                  src: "/images/image-14.jpeg",
+                  alt: "Customer service",
+                  title: "Customer Service",
+                },
+              ]}
+              autoPlay={true}
+              autoPlayDelay={4000}
+            />
           </div>
         </section>
 
