@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createShipment, getAllShipments, updateShipment, generateTrackingId } from '@/lib/vercel-blob';
-import { sendEmail, sendShipmentNotification } from '@/lib/email';
+import { createShipment, getAllShipments, updateShipment, generateTrackingId, debugListAllBlobs } from '@/lib/vercel-blob';
+import { sendShipmentNotification } from '@/lib/email';
 
 // Validation schema for shipment data - updated to match form data
 const createShipmentSchema = z.object({
@@ -90,11 +90,26 @@ export async function GET(request: NextRequest) {
   try {
     console.log('GET /api/shipping - Fetching all shipments');
     
+    // Debug: List all blobs first
+    const allBlobs = await debugListAllBlobs();
+    console.log(`Debug: Found ${allBlobs.length} total blobs in storage`);
+    
     const shipments = await getAllShipments();
+    console.log(`Found ${shipments.length} shipments in storage`);
+    
+    // Log tracking IDs for debugging
+    const trackingIds = shipments.map(s => s.trackingId);
+    console.log('Available tracking IDs:', trackingIds);
     
     return NextResponse.json({
       success: true,
       shipments,
+      debug: {
+        totalBlobs: allBlobs.length,
+        shipmentsCount: shipments.length,
+        trackingIds,
+        allBlobs: allBlobs.map(b => b.pathname),
+      },
     });
 
   } catch (error) {

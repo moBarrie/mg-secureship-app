@@ -32,12 +32,30 @@ export async function createShipment(shipmentData: Omit<Shipment, 'id' | 'create
     updatedAt: now,
   };
 
+  console.log('Creating shipment with data:', {
+    trackingId: shipment.trackingId,
+    id: shipment.id,
+    status: shipment.status,
+  });
+
   // Store the shipment as a JSON file
   const filename = `shipments/${shipment.trackingId}.json`;
-  await put(filename, JSON.stringify(shipment), {
-    access: 'public',
-    addRandomSuffix: false,
-  });
+  console.log('Storing shipment to filename:', filename);
+  
+  try {
+    const result = await put(filename, JSON.stringify(shipment), {
+      access: 'public',
+      addRandomSuffix: false,
+    });
+    
+    console.log('Shipment stored successfully:', {
+      url: result.url,
+      pathname: result.pathname,
+    });
+  } catch (error) {
+    console.error('Error storing shipment:', error);
+    throw error;
+  }
 
   console.log('Shipment created successfully:', shipment.trackingId);
 
@@ -49,21 +67,48 @@ export async function getShipmentByTrackingId(trackingId: string): Promise<Shipm
   try {
     console.log('Looking for shipment with tracking ID:', trackingId);
     
-    // List all blobs to find the shipment file
-    const { blobs } = await list({
+    // First, try exact match with prefix search
+    let { blobs } = await list({
       prefix: `shipments/${trackingId}.json`,
     });
 
+    console.log(`Found ${blobs.length} blobs with exact prefix match`);
+
+    // If exact match fails, try searching all shipment files
+    if (blobs.length === 0) {
+      console.log('Exact match failed, searching all shipments...');
+      const allBlobs = await list({
+        prefix: 'shipments/',
+      });
+      
+      console.log(`Found ${allBlobs.blobs.length} total shipment files`);
+      
+      // Filter for the specific tracking ID
+      blobs = allBlobs.blobs.filter(blob => 
+        blob.pathname.includes(trackingId) && blob.pathname.endsWith('.json')
+      );
+      
+      console.log(`Found ${blobs.length} blobs matching tracking ID`);
+    }
+
     if (blobs.length === 0) {
       console.log('No blob found for tracking ID:', trackingId);
+      
+      // Debug: List all blobs to see what's actually stored
+      const allBlobs = await list({ prefix: 'shipments/' });
+      console.log('All stored blobs:', allBlobs.blobs.map(b => b.pathname));
+      
       return null;
     }
 
     // Fetch the blob content
-    const response = await fetch(blobs[0].url);
+    const blob = blobs[0];
+    console.log('Fetching blob:', blob.pathname, 'URL:', blob.url);
+    
+    const response = await fetch(blob.url);
     
     if (!response.ok) {
-      console.error('Failed to fetch blob content:', response.status);
+      console.error('Failed to fetch blob content:', response.status, response.statusText);
       return null;
     }
 
@@ -140,10 +185,31 @@ export async function updateShipment(trackingId: string, updates: Partial<Shipme
 
     // Store the updated shipment
     const filename = `shipments/${trackingId}.json`;
-    await put(filename, JSON.stringify(updatedShipment), {
+    
+    // Delete existing file first if it exists
+    try {
+      const { blobs } = await list({
+        prefix: filename,
+      });
+      
+      for (const blob of blobs) {
+        if (blob.pathname === filename) {
+          await del(blob.url);
+          console.log('Deleted existing shipment file for update');
+          break;
+        }
+      }
+    } catch (error) {
+      console.log('Error checking/deleting existing file:', error);
+    }
+    
+    // Create the updated file
+    const result = await put(filename, JSON.stringify(updatedShipment), {
       access: 'public',
       addRandomSuffix: false,
     });
+    
+    console.log('Updated shipment stored at:', result.url);
 
     console.log('Shipment updated successfully in blob storage');
 
@@ -177,6 +243,22 @@ export async function deleteShipment(trackingId: string): Promise<boolean> {
   } catch (error) {
     console.error('Error deleting shipment:', error);
     return false;
+  }
+}
+
+// Debug function to list all blobs
+export async function debugListAllBlobs(): Promise<any[]> {
+  try {
+    const { blobs } = await list();
+    console.log('All blobs in storage:', blobs.map(b => ({ 
+      pathname: b.pathname, 
+      size: b.size, 
+      uploadedAt: b.uploadedAt 
+    })));
+    return blobs;
+  } catch (error) {
+    console.error('Error listing blobs:', error);
+    return [];
   }
 }
 
