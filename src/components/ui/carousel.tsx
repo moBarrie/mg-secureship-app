@@ -9,6 +9,7 @@ interface CarouselItem {
   src: string;
   alt: string;
   title: string;
+  objectFit?: "cover" | "contain";
 }
 
 interface CarouselProps {
@@ -58,13 +59,15 @@ export function Carousel({
         >
           {items.map((item, index) => (
             <div key={index} className="w-full flex-shrink-0">
-              <div className="relative group">
+              <div className="relative group bg-muted/30">
                 <Image
                   src={item.src}
                   alt={item.alt}
                   width={1200}
                   height={600}
-                  className="w-full h-[400px] md:h-[500px] object-cover"
+                  className={`w-full h-[400px] md:h-[500px] object-${
+                    item.objectFit || "contain"
+                  }`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end justify-center pb-8">
                   <h3 className="text-white text-2xl md:text-3xl font-bold px-4 text-center">
