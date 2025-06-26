@@ -48,43 +48,43 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-center max-w-6xl mx-auto">
               <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
-                  src="/images/gold-shipping.jpeg"
-                  alt="Gold being shipped securely"
+                  src="/images/image-1.jpeg"
+                  alt="Premium shipping services"
                   width={400}
                   height={300}
                   className="rounded-xl shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
                   <p className="text-white text-xl font-semibold px-4 text-center">
-                    Secure Gold Shipping
+                    Premium Shipping Services
                   </p>
                 </div>
               </div>
               <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
-                  src="/images/vault-gold.jpeg"
-                  alt="Secure Gold Storage"
+                  src="/images/image-2.png"
+                  alt="Global logistics network"
                   width={400}
                   height={300}
                   className="rounded-xl shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
                   <p className="text-white text-xl font-semibold px-4 text-center">
-                    Secure Storage Solutions
+                    Global Logistics Network
                   </p>
                 </div>
               </div>
               <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
-                  src="/images/diamond-shipping.jpeg"
-                  alt="Diamonds being shipped securely"
+                  src="/images/image-3.jpeg"
+                  alt="Secure mineral transport"
                   width={400}
                   height={300}
                   className="rounded-xl shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
                   <p className="text-white text-xl font-semibold px-4 text-center">
-                    Secure Diamond Shipping
+                    Secure Mineral Transport
                   </p>
                 </div>
               </div>
@@ -336,20 +336,20 @@ export default function Home() {
               {/* Gold Transport */}
               <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
-                  src="/images/gold-bars.jpeg"
-                  alt="Gold bars being transported"
+                  src="/images/gold-shipping.jpeg"
+                  alt="Gold shipping and transport"
                   width={400}
                   height={300}
                   className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
                   <p className="text-white text-xl font-semibold px-4 text-center">
-                    Precious Metal Transport
+                    Gold Shipping Services
                   </p>
                 </div>
               </div>
 
-              {/* Secure Storage */}
+              {/* Secure Vault */}
               <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
                   src="/images/vault.jpeg"
@@ -381,11 +381,11 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Transport Services */}
+              {/* Ground Transport */}
               <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
                   src="/images/transport.jpeg"
-                  alt="Transport services"
+                  alt="Ground transport services"
                   width={400}
                   height={300}
                   className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
@@ -397,27 +397,11 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Diamond Shipping */}
-              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
-                <Image
-                  src="/images/diamond-shipping.jpeg"
-                  alt="Diamond shipping"
-                  width={400}
-                  height={300}
-                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
-                  <p className="text-white text-xl font-semibold px-4 text-center">
-                    Diamond Transport Solutions
-                  </p>
-                </div>
-              </div>
-
-              {/* Gold Storage */}
+              {/* Vault Gold Storage */}
               <div className="relative group overflow-hidden rounded-xl shadow-2xl">
                 <Image
                   src="/images/vault-gold.jpeg"
-                  alt="Gold storage"
+                  alt="Gold storage facility"
                   width={400}
                   height={300}
                   className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
@@ -425,6 +409,38 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
                   <p className="text-white text-xl font-semibold px-4 text-center">
                     Precious Metal Storage
+                  </p>
+                </div>
+              </div>
+
+              {/* Service Image 4 */}
+              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
+                <Image
+                  src="/images/image-4.jpeg"
+                  alt="Professional shipping services"
+                  width={400}
+                  height={300}
+                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold px-4 text-center">
+                    Professional Services
+                  </p>
+                </div>
+              </div>
+
+              {/* Service Image 5 */}
+              <div className="relative group overflow-hidden rounded-xl shadow-2xl">
+                <Image
+                  src="/images/image-5.jpeg"
+                  alt="Global shipping solutions"
+                  width={400}
+                  height={300}
+                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
+                  <p className="text-white text-xl font-semibold px-4 text-center">
+                    Global Shipping Solutions
                   </p>
                 </div>
               </div>
