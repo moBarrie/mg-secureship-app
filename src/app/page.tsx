@@ -52,7 +52,7 @@ export default function Home() {
                   alt="Premium shipping services"
                   width={400}
                   height={300}
-                  className="rounded-xl shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
+                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
                   <p className="text-white text-xl font-semibold px-4 text-center">
@@ -66,7 +66,7 @@ export default function Home() {
                   alt="Global logistics network"
                   width={400}
                   height={300}
-                  className="rounded-xl shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
+                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
                   <p className="text-white text-xl font-semibold px-4 text-center">
@@ -80,7 +80,7 @@ export default function Home() {
                   alt="Secure mineral transport"
                   width={400}
                   height={300}
-                  className="rounded-xl shadow-xl mx-auto transform transition-all duration-500 hover:scale-110"
+                  className="rounded-xl shadow-xl w-full h-[300px] object-cover transform transition-all duration-500 hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl flex items-end justify-center pb-8">
                   <p className="text-white text-xl font-semibold px-4 text-center">
