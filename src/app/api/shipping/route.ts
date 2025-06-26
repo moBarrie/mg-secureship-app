@@ -21,7 +21,8 @@ const createShipmentSchema = z.object({
 
 const updateStatusSchema = z.object({
   trackingId: z.string().min(1, 'Tracking ID is required'),
-  status: z.enum(['pending', 'processing', 'shipped', 'delivered', 'cancelled']),
+  status: z.enum(['pending', 'processing', 'in_transit', 'out_for_delivery', 'delivered', 'on_hold', 'cancelled']),
+  notes: z.string().optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -116,9 +117,16 @@ export async function PUT(request: NextRequest) {
     const validatedData = updateStatusSchema.parse(body);
     
     // Update shipment status
-    const updatedShipment = await updateShipment(validatedData.trackingId, {
+    const updateData: any = {
       status: validatedData.status,
-    });
+    };
+    
+    // Add notes if provided
+    if (validatedData.notes) {
+      updateData.notes = validatedData.notes;
+    }
+    
+    const updatedShipment = await updateShipment(validatedData.trackingId, updateData);
 
     if (!updatedShipment) {
       return NextResponse.json(

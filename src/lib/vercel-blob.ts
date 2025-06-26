@@ -15,7 +15,7 @@ export interface Shipment {
   destination: string;
   origin: string;
   notes?: string;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  status: 'pending' | 'processing' | 'in_transit' | 'out_for_delivery' | 'delivered' | 'on_hold' | 'cancelled';
   createdAt: string;
   updatedAt: string;
 }
@@ -119,11 +119,16 @@ export async function getAllShipments(): Promise<Shipment[]> {
 // Update a shipment
 export async function updateShipment(trackingId: string, updates: Partial<Shipment>): Promise<Shipment | null> {
   try {
+    console.log('Updating shipment:', trackingId, 'with updates:', updates);
+    
     const existingShipment = await getShipmentByTrackingId(trackingId);
     
     if (!existingShipment) {
+      console.log('Shipment not found for update:', trackingId);
       return null;
     }
+
+    console.log('Existing shipment found:', existingShipment.trackingId);
 
     const updatedShipment: Shipment = {
       ...existingShipment,
@@ -131,12 +136,16 @@ export async function updateShipment(trackingId: string, updates: Partial<Shipme
       updatedAt: new Date().toISOString(),
     };
 
+    console.log('Updated shipment data:', updatedShipment);
+
     // Store the updated shipment
     const filename = `shipments/${trackingId}.json`;
     await put(filename, JSON.stringify(updatedShipment), {
       access: 'public',
       addRandomSuffix: false,
     });
+
+    console.log('Shipment updated successfully in blob storage');
 
     return updatedShipment;
   } catch (error) {
