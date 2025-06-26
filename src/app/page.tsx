@@ -336,11 +336,6 @@ export default function Home() {
             <Carousel
               items={[
                 {
-                  src: "/images/gold-shipping.jpeg",
-                  alt: "Gold shipping and transport",
-                  title: "Gold Shipping Services",
-                },
-                {
                   src: "/images/vault.jpeg",
                   alt: "Secure vault facility",
                   title: "Secure Storage Facilities",
