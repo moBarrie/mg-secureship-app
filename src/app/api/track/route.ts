@@ -1,42 +1,53 @@
-import { NextResponse } from "next/server";
-import dbConnect from "@/lib/db";
-import { Shipment } from "@/models/Shipment";
+import { NextRequest, NextResponse } from 'next/server';
+import { getShipmentByTrackingId } from '@/lib/vercel-blob';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const trackingId = searchParams.get('trackingId');
 
+    console.log('GET /api/track - Tracking ID:', trackingId);
+
     if (!trackingId) {
-      return NextResponse.json({
-        success: false,
-        message: "Tracking ID is required"
-      }, { status: 400 });
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Tracking ID is required' 
+        },
+        { status: 400 }
+      );
     }
 
-    // Connect to database
-    await dbConnect();
+    // Get shipment from Vercel Blob
+    const shipment = await getShipmentByTrackingId(trackingId);
 
-    // Find shipment in MongoDB
-    const foundShipment = await Shipment.findOne({ trackingId: trackingId.trim() });
-
-    if (foundShipment) {
-      return NextResponse.json({
-        success: true,
-        shipment: foundShipment
-      });
-    } else {
-      return NextResponse.json({
-        success: false,
-        message: "No shipment found with this tracking ID"
-      }, { status: 404 });
+    if (!shipment) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Shipment not found',
+          message: 'No shipment found with the provided tracking ID' 
+        },
+        { status: 404 }
+      );
     }
 
-  } catch (error) {
-    console.error('Error tracking shipment:', error);
+    console.log('Shipment found:', shipment.trackingId);
+
     return NextResponse.json({
-      success: false,
-      message: error instanceof Error ? error.message : "Failed to track shipment"
-    }, { status: 500 });
+      success: true,
+      shipment,
+    });
+  } catch (error) {
+    console.error('GET /api/track error:', error);
+    
+    return NextResponse.json(
+      { 
+        success: false, 
+        error: 'Failed to track shipment',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
+      { status: 500 }
+    );
   }
 }

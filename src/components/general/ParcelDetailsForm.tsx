@@ -22,6 +22,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 
@@ -49,6 +58,8 @@ export function ParcelDetailsForm() {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [showTrackingDialog, setShowTrackingDialog] = React.useState(false);
+  const [trackingId, setTrackingId] = React.useState<string>("");
 
   const form = useForm<ParcelDetailsValues>({
     resolver: zodResolver(parcelDetailsSchema),
@@ -74,8 +85,10 @@ export function ParcelDetailsForm() {
       const shipmentData = {
         senderName: data.senderName,
         senderEmail: data.senderEmail,
+        senderPhone: data.senderPhone,
         receiverName: data.receiverName,
         receiverEmail: data.receiverEmail,
+        receiverPhone: data.receiverPhone,
         parcelType: data.parcelType,
         weight: data.weight,
         value: data.value,
@@ -106,13 +119,21 @@ export function ParcelDetailsForm() {
 
       const result = await response.json();
 
-      if (!response.ok) {
-        throw new Error(result.message || "Failed to create shipment");
+      if (!result.success) {
+        throw new Error(result.error || "Failed to create shipment");
+      }
+
+      const shipmentTrackingId = result.shipment?.trackingId;
+
+      if (shipmentTrackingId) {
+        setTrackingId(shipmentTrackingId);
+        setShowTrackingDialog(true);
       }
 
       toast({
-        title: "Shipment Created!",
-        description: `Your tracking ID is: ${result.trackingId}. Please save this for future reference.`,
+        title: "✅ Shipment Created Successfully!",
+        description: "Your tracking ID has been generated. Please save it for future reference.",
+        duration: 5000,
       });
 
       // Reset form
@@ -134,7 +155,8 @@ export function ParcelDetailsForm() {
   };
 
   return (
-    <Form {...form}>
+    <>
+      <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {/* Sender Details Section */}
         <div className="space-y-4">
@@ -359,5 +381,47 @@ export function ParcelDetailsForm() {
         </Button>
       </form>
     </Form>
+
+    <AlertDialog open={showTrackingDialog} onOpenChange={setShowTrackingDialog}>
+      <AlertDialogContent className="max-w-md">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="text-center text-green-600">
+            🎉 Shipment Created Successfully!
+          </AlertDialogTitle>
+          <AlertDialogDescription className="text-center space-y-4">
+            <div>
+              <p className="font-semibold mb-2">Your Tracking ID:</p>
+              <div className="bg-muted p-4 rounded-lg border">
+                <p className="text-xl font-mono font-bold text-center break-all">
+                  {trackingId}
+                </p>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Please save this tracking ID. You can use it to track your shipment on our website.
+            </p>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={() => {
+              navigator.clipboard.writeText(trackingId);
+              toast({
+                title: "Copied!",
+                description: "Tracking ID copied to clipboard",
+                duration: 2000,
+              });
+            }}
+          >
+            Copy Tracking ID
+          </Button>
+          <AlertDialogAction onClick={() => router.push(`/track?id=${trackingId}`)}>
+            Track Shipment
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 }

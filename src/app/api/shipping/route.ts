@@ -1,236 +1,148 @@
-import { NextResponse } from "next/server";
-import { sendEmail } from "@/lib/email";
-import { z } from "zod";
-import dbConnect from "@/lib/db";
-import { Shipment } from "@/models/Shipment";
+import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+import { createShipment, getAllShipments, updateShipment, generateTrackingId } from '@/lib/vercel-blob';
+import { sendEmail, sendShipmentNotification } from '@/lib/email';
 
-const shipmentSchema = z.object({
-  trackingId: z.string().optional(),
-  senderName: z.string(),
-  senderEmail: z.string().email(),
-  senderPhone: z.string().min(7),
-  receiverName: z.string(),
-  receiverEmail: z.string().email(),
-  receiverPhone: z.string().min(7),
-  parcelType: z.string(),
-  weight: z.string(),
-  value: z.string(),
-  origin: z.string(),
-  destination: z.string(),
-  status: z.string().optional(),
+// Validation schema for shipment data - updated to match form data
+const createShipmentSchema = z.object({
+  senderName: z.string().min(1, 'Sender name is required'),
+  senderEmail: z.string().email('Invalid sender email'),
+  senderPhone: z.string().min(1, 'Sender phone is required'),
+  receiverName: z.string().min(1, 'Receiver name is required'),
+  receiverEmail: z.string().email('Invalid receiver email'),
+  receiverPhone: z.string().min(1, 'Receiver phone is required'),
+  parcelType: z.string().min(1, 'Parcel type is required'),
+  weight: z.string().min(1, 'Weight is required'),
+  value: z.string().min(1, 'Value is required'),
+  destination: z.string().min(1, 'Destination is required'),
+  origin: z.string().min(1, 'Origin is required'),
   notes: z.string().optional(),
 });
 
-export async function POST(request: Request) {
+const updateStatusSchema = z.object({
+  trackingId: z.string().min(1, 'Tracking ID is required'),
+  status: z.enum(['pending', 'processing', 'shipped', 'delivered', 'cancelled']),
+});
+
+export async function POST(request: NextRequest) {
   try {
-    console.log('POST /api/shipping - Starting request');
+    console.log('POST /api/shipping - Creating new shipment');
     
-    const envStatus = {
-      MONGODB_URI: !!process.env.MONGODB_URI,
-      hasCluster0: process.env.MONGODB_URI?.includes('Cluster0'),
-      SMTP_HOST: !!process.env.SMTP_HOST,
-      SMTP_PORT: !!process.env.SMTP_PORT,
-      SMTP_USER: !!process.env.SMTP_USER,
-      SMTP_PASSWORD: !!process.env.SMTP_PASSWORD,
-      SMTP_FROM: !!process.env.SMTP_FROM,
-      CONTACT_EMAIL: !!process.env.CONTACT_EMAIL,
-    };
-    console.log('Environment variables status:', envStatus);
-
     const body = await request.json();
-    console.log('Received body:', { ...body, senderEmail: '***@***.com' });
+    console.log('Request body:', body);
+
+    // Validate the request data
+    const validatedData = createShipmentSchema.parse(body);
     
-    const dataWithTracking = {
-      ...body,
-      trackingId: `SHP${Date.now().toString(36).toUpperCase()}`,
-      status: "pending"
-    };
+    // Generate tracking ID
+    const trackingId = generateTrackingId();
     
-    console.log('Attempting database connection...');
+    // Create shipment using Vercel Blob
+    const shipment = await createShipment({
+      ...validatedData,
+      trackingId,
+      status: 'pending' as const,
+    });
+
+    console.log('Shipment created successfully:', { trackingId });
+
+    // Send notification email to admin only
     try {
-      await dbConnect();
-      console.log('Database connection successful');
-    } catch (error) {
-      console.error('Database connection failed:', error);
-      return NextResponse.json(
-        { error: 'Database connection failed', details: error instanceof Error ? error.message : String(error) },
-        { status: 500 }
-      );
-    }
-
-    try {
-      shipmentSchema.parse(dataWithTracking);
-    } catch (error) {
-      console.error('Validation error:', error);
-      return NextResponse.json({ error: 'Invalid shipment data', details: error }, { status: 400 });
-    }
-
-    let createdShipment;
-
-    try {
-      createdShipment = await Shipment.create(dataWithTracking);
-      console.log('Shipment created successfully:', createdShipment.trackingId);
-
-      createdShipment.statusHistory.push({
-        status: 'pending',
-        notes: 'Shipment created',
-        timestamp: new Date(),
-      });
-      await createdShipment.save();
-      
-    } catch (error) {
-      console.error('Error creating shipment:', error);
-      return NextResponse.json(
-        { error: 'Failed to create shipment', details: error instanceof Error ? error.message : String(error) },
-        { status: 500 }
-      );
-    }
-    
-    console.log('Preparing email notifications...');
-    try {
-      const notificationMessage = [
-        'New Shipment Details:',
-        '',
-        `Tracking ID: ${dataWithTracking.trackingId}`,
-        '',
-        'Sender Information:',
-        `Name: ${dataWithTracking.senderName}`,
-        `Email: ${dataWithTracking.senderEmail}`,
-        `Phone: ${dataWithTracking.senderPhone}`,
-        '',
-        'Receiver Information:',
-        `Name: ${dataWithTracking.receiverName}`,
-        `Email: ${dataWithTracking.receiverEmail}`,
-        `Phone: ${dataWithTracking.receiverPhone}`,
-        '',
-        'Parcel Details:',
-        `Type: ${dataWithTracking.parcelType}`,
-        `Weight: ${dataWithTracking.weight}`,
-        `Declared Value: ${dataWithTracking.value}`,
-        '',
-        'Shipping Details:',
-        `Origin: ${dataWithTracking.origin}`,
-        `Destination: ${dataWithTracking.destination}`,
-        '',
-        `Status: ${dataWithTracking.status || 'Pending'}`,
-        `Notes: ${dataWithTracking.notes || 'N/A'}`
-      ].join('\n');
-
-      const confirmationMessage = [
-        `Dear ${dataWithTracking.senderName},`,
-        '',
-        'Your shipment has been successfully created. Please keep this tracking ID for future reference:',
-        '',
-        `Tracking ID: ${dataWithTracking.trackingId}`,
-        '',
-        'Shipment Details:',
-        `- Parcel Type: ${dataWithTracking.parcelType}`,
-        `- Weight: ${dataWithTracking.weight}`,
-        `- Value: ${dataWithTracking.value}`,
-        `- Destination: ${dataWithTracking.destination}`,
-        '',
-        'You can track your shipment at any time using your tracking ID.',
-        '',
-        'Thank you for choosing our services!',
-        '',
-        'Best regards,',
-        'Global Atlantic Express Team'
-      ].join('\n');
-
-      await sendEmail({
-        name: dataWithTracking.senderName,
-        email: dataWithTracking.senderEmail,
-        subject: `New Shipment Created - Tracking ID: ${dataWithTracking.trackingId}`,
-        message: notificationMessage
+      await sendShipmentNotification({
+        trackingId,
+        senderName: validatedData.senderName,
+        senderEmail: validatedData.senderEmail,
+        senderPhone: validatedData.senderPhone,
+        receiverName: validatedData.receiverName,
+        receiverEmail: validatedData.receiverEmail,
+        receiverPhone: validatedData.receiverPhone,
+        parcelType: validatedData.parcelType,
+        weight: validatedData.weight,
+        value: validatedData.value,
+        destination: validatedData.destination,
+        origin: validatedData.origin,
+        notes: validatedData.notes,
       });
 
-      await sendEmail({
-        name: dataWithTracking.senderName,
-        email: dataWithTracking.senderEmail,
-        subject: `Shipment Confirmation - Tracking ID: ${dataWithTracking.trackingId}`,
-        message: confirmationMessage
-      });
-    } catch (error) {
-      console.error('Error sending email notifications:', error);
+      console.log('Admin notification email sent successfully');
+    } catch (emailError) {
+      console.error('Email sending failed (non-critical):', emailError);
+      // Don't fail the entire request if email fails
     }
 
     return NextResponse.json({
       success: true,
-      message: "Shipment created successfully",
-      trackingId: dataWithTracking.trackingId
+      message: 'Shipment created successfully',
+      shipment,
     });
 
   } catch (error) {
-    console.error("Error creating shipment:", error);
-    return NextResponse.json({
-      success: false,
-      message: error instanceof Error ? error.message : "Failed to create shipment"
-    }, { status: 500 });
+    console.error('POST /api/shipping error:', error);
+    return NextResponse.json(
+      { success: false, error: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 400 }
+    );
   }
 }
 
-export async function PUT(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    await dbConnect();
-    const body = await request.json();
-    const { trackingId, status, notes } = body;
-
-    if (!trackingId || !status) {
-      return NextResponse.json({
-        success: false,
-        message: "Tracking ID and status are required"
-      }, { status: 400 });
-    }
-
-    const shipment = await Shipment.findOne({ trackingId });
-    if (!shipment) {
-      return NextResponse.json({
-        success: false,
-        message: "Shipment not found"
-      }, { status: 404 });
-    }
-
-    shipment.status = status;
-    if (notes) shipment.notes = notes;
-
-    shipment.statusHistory.push({
-      status,
-      notes: notes || `Status updated to ${status}`,
-      timestamp: new Date()
-    });
-
-    await shipment.save();
-
-    try {
-      const updateMessage = [
-        'Shipment Status Update:',
-        '',
-        `Tracking ID: ${trackingId}`,
-        `New Status: ${status}`,
-        `Notes: ${notes || 'N/A'}`,
-        `Updated at: ${new Date().toLocaleString()}`
-      ].join('\n');
-
-      await sendEmail({
-        name: shipment.senderName,
-        email: shipment.senderEmail,
-        subject: `Shipment Status Updated - ${trackingId}`,
-        message: updateMessage
-      });
-    } catch (error) {
-      console.error('Error sending status update email:', error);
-    }
-
+    console.log('GET /api/shipping - Fetching all shipments');
+    
+    const shipments = await getAllShipments();
+    
     return NextResponse.json({
       success: true,
-      message: "Shipment status updated successfully"
+      shipments,
     });
 
   } catch (error) {
-    console.error("Error updating shipment:", error);
+    console.error('GET /api/shipping error:', error);
+    return NextResponse.json(
+      { success: false, error: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    console.log('PUT /api/shipping - Updating shipment status');
+    
+    const body = await request.json();
+    console.log('Update request body:', body);
+
+    // Validate the request data
+    const validatedData = updateStatusSchema.parse(body);
+    
+    // Update shipment status
+    const updatedShipment = await updateShipment(validatedData.trackingId, {
+      status: validatedData.status,
+    });
+
+    if (!updatedShipment) {
+      return NextResponse.json(
+        { success: false, error: 'Shipment not found' },
+        { status: 404 }
+      );
+    }
+
+    console.log('Shipment status updated successfully:', { 
+      trackingId: validatedData.trackingId, 
+      status: validatedData.status 
+    });
+
     return NextResponse.json({
-      success: false,
-      message: error instanceof Error ? error.message : "Failed to update shipment"
-    }, { status: 500 });
+      success: true,
+      message: 'Shipment status updated successfully',
+      shipment: updatedShipment,
+    });
+
+  } catch (error) {
+    console.error('PUT /api/shipping error:', error);
+    return NextResponse.json(
+      { success: false, error: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 400 }
+    );
   }
 }
